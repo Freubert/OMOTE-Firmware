@@ -16,43 +16,31 @@
 #include "devices/keyboard/device_keyboard_ble/device_keyboard_ble.h"
 #endif // ENABLE_KEYBOARD_BLE
 //   TV
-#include "devices/TV/device_samsungTV/device_samsungTV.h"
-//#include "devices/TV/device_lgTV/device_lgTV.h"
-//#include "devices/TV/device_sonyTV/device_sonyTV.h.h"
+#include "devices/TV/device_philipsTV/device_philipsTV.h"
 //   AV receiver
-#include "devices/AVreceiver/device_yamahaAmp/device_yamahaAmp.h"
-//#include "devices/AVreceiver/device_boseAmp/device_boseAmp.h"
-//#include "devices/AVreceiver/device_denonAvr/device_denonAvr.h"
-//#include "devices/AVreceiver/device_lgsoundbar/device_lgsoundbar.h"
-//   media player
-#include "devices/mediaPlayer/device_appleTV/device_appleTV.h"
-//#include "devices/mediaPlayer/device_lgbluray/device_lgbluray.h"
-//#include "devices/mediaPlayer/device_samsungbluray/device_samsungbluray.h"
-//#include "devices/mediaPlayer/device_shield/device_shield.h"
+#include "devices/AVreceiver/device_teufelSConcept/device_teufelSConcept.h"
+#include "devices/AVreceiver/device_athenVS482/device_athenVS482.h"
+//   projector
+#include "devices/projector/device_epsonProjector/device_epsonProjector.h"
 //   misc
-#include "devices/misc/device_smarthome/device_smarthome.h"
-//#include "devices/misc/device_airconditioner/device_airconditioner.h"
 // register gui and keys
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
 #include "guis/gui_sceneSelection.h"
-#include "guis/gui_irReceiver.h"
 #include "guis/gui_settings.h"
 #include "guis/gui_numpad.h"
 #include "guis/gui_BLEpairing.h"
-#include "devices/AVreceiver/device_yamahaAmp/gui_yamahaAmp.h"
-#include "devices/mediaPlayer/device_appleTV/gui_appleTV.h"
-#include "devices/misc/device_smarthome/gui_smarthome.h"
-//#include "devices/misc/device_airconditioner/gui_airconditioner.h"
+#include "devices/AVreceiver/device_teufelSConcept/gui_teufelSConcept.h"
+#include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
+#include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
+#include "devices/mediaPlayer/device_kodi/gui_kodi.h"
 #include "applicationInternal/keys.h"
 #include "applicationInternal/gui/guiStatusUpdate.h"
 // register scenes
 #include "scenes/scene__default.h"
 #include "scenes/scene_allOff.h"
 #include "scenes/scene_TV.h"
-#include "scenes/scene_fireTV.h"
-#include "scenes/scene_chromecast.h"
-#include "scenes/scene_appleTV.h"
+#include "scenes/scene_directDeviceControl.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 
 #if defined(ARDUINO)
@@ -89,23 +77,12 @@ int main(int argc, char *argv[]) {
   // register commands for the devices
   register_specialCommands();
   //   TV
-  register_device_samsungTV();
-  //register_device_lgTV();
-  //register_device_sonyTV();
+  register_device_philipsTV();
   //   AV receiver
-  register_device_yamahaAmp();
-  //register_device_boseAmp();
-  //register_device_denonAvr();
-  //register_device_lgsoundbar();
-  //   media player
-  register_device_appleTV();
-  //register_device_lgbluray();
-  //register_device_samsungbluray();
-  //register_device_shield();
-  //   misc
-  register_device_smarthome();
-  //register_device_airconditioner();
-
+  register_device_teufelSConcept();
+  register_device_athenVS482();
+  //   projector
+  register_device_epsonProjector();
   #if (ENABLE_KEYBOARD_MQTT == 1)
   register_device_keyboard_mqtt();
   #endif
@@ -116,20 +93,19 @@ int main(int argc, char *argv[]) {
 
   // Register the GUIs. They will be displayed in the order they have been registered.
   register_gui_sceneSelection();
-  register_gui_irReceiver();
   register_gui_settings();
-  register_gui_appleTV();
   register_gui_numpad();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
-  register_gui_smarthome();
-  //register_gui_airconditioner();
-  register_gui_yamahaAmp();
+  register_gui_teufelSConcept();
+  register_gui_athenVS482();
+  register_gui_epsonProjector();
+  register_gui_kodi();
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_yamahaAmp, tabName_sceneSelection, tabName_smarthome, tabName_settings, tabName_irReceiver
+    {tabName_sceneSelection, tabName_settings, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
@@ -139,18 +115,16 @@ int main(int argc, char *argv[]) {
   // register the scenes and their key_commands_*
   register_scene_defaultKeys();
   register_scene_TV();
-  register_scene_fireTV();
-  register_scene_chromecast();
-  register_scene_appleTV();
   register_scene_allOff();
+  register_scene_directDeviceControl();
   // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_TV, scene_name_fireTV, scene_name_chromecast, scene_name_appleTV});
+  set_scenes_on_sceneSelectionGUI({scene_name_TV});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered
   setLabelActiveScene();
   gui_loop(); // Run the LVGL UI once before the loop takes over
-  
+
   // Power Pin and battery monitor definition
   init_battery();
 
@@ -202,9 +176,9 @@ void loop(unsigned long *pIMUTaskTimer, unsigned long *pUpdateStatusTimer) {
   // keypad handling: get key states from hardware and process them
   keypad_loop();
   // process IR receiver, if activated
-  if (get_irReceiverEnabled()) {
-    infraredReceiver_loop();
-  }
+  //if (get_irReceiverEnabled()) {
+  //  infraredReceiver_loop();
+  //}
   // update LVGL UI
   gui_loop();
   // call mqtt loop to receive mqtt messages, if you are subscribed to some topics
