@@ -8,6 +8,7 @@
 #include "scene__default.h"
 #include "scenes/scene_allOff.h"
 #include "scenes/scene_TV.h"
+#include "scenes/scene_directDeviceControl.h"
 
 uint16_t SCENE_SELECTION;
 std::string scene_name_selection = "sceneSelection";
@@ -52,7 +53,7 @@ void register_scene_defaultKeys(void) {
     {KEY_BACK,  SCENE_SELECTION  },                                                                        /*{KEY_SRC,   COMMAND_UNKNOWN  },*/
     {KEY_VOLUP, TEUFEL_VOL_PLUS  },                      {KEY_MUTE,  TEUFEL_MUTE_TOGGLE},                  /*{KEY_CHUP,  COMMAND_UNKNOWN  },*/
     {KEY_VOLDO, TEUFEL_VOL_MINUS },                      {KEY_REC,   SCENE_BACK_TO_PREVIOUS_GUI_LIST  },   /*{KEY_CHDOW, COMMAND_UNKNOWN  },*/
-    {KEY_RED,   SCENE_TV_FORCE   },
+    {KEY_RED,   SCENE_TV_FORCE   },    {KEY_GREEN, SCENE_DIRECT_DEVICE_CONTROL_FORCE},
   };
 
   key_commands_long_default = {

@@ -30,6 +30,7 @@
 #include "guis/gui_settings.h"
 #include "guis/gui_numpad.h"
 #include "guis/gui_BLEpairing.h"
+#include "devices/TV/device_philipsTV/gui_philipsTV.h"
 #include "devices/AVreceiver/device_teufelSConcept/gui_teufelSConcept.h"
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
@@ -92,23 +93,25 @@ int main(int argc, char *argv[]) {
   register_keyboardCommands();
 
   // Register the GUIs. They will be displayed in the order they have been registered.
-  register_gui_sceneSelection();
-  register_gui_settings();
-  register_gui_numpad();
+  register_gui_philipsTV();
+  register_gui_teufelSConcept();
+  register_gui_epsonProjector();
+  register_gui_athenVS482();
+  register_gui_kodi();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
-  register_gui_teufelSConcept();
-  register_gui_athenVS482();
-  register_gui_epsonProjector();
-  register_gui_kodi();
+  register_gui_numpad();
+  register_gui_sceneSelection();
+  register_gui_settings();
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_sceneSelection, tabName_settings, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
+    {tabName_philipsTV, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
+    , tabName_sceneSelection, tabName_settings
     };
   #endif
 
@@ -118,7 +121,7 @@ int main(int argc, char *argv[]) {
   register_scene_allOff();
   register_scene_directDeviceControl();
   // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_TV});
+  set_scenes_on_sceneSelectionGUI({scene_name_TV, scene_name_directDeviceControl});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered
