@@ -1,6 +1,6 @@
 #pragma once
 
-// EPSON EB-680W IR codes (using NEC protocol)
+// Epson projector IR codes (NEC2, from irdb)
 extern uint16_t EPSON_POWER_ON;
 extern uint16_t EPSON_POWER_OFF;
 extern uint16_t EPSON_POWER_TOGGLE;
@@ -8,7 +8,6 @@ extern uint16_t EPSON_VOL_UP;
 extern uint16_t EPSON_VOL_DOWN;
 extern uint16_t EPSON_MUTE;
 extern uint16_t EPSON_MENU;
-extern uint16_t EPSON_HOME;
 extern uint16_t EPSON_UP;
 extern uint16_t EPSON_DOWN;
 extern uint16_t EPSON_LEFT;

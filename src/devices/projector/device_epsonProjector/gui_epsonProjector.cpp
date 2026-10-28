@@ -28,10 +28,12 @@ void create_tab_content_epsonProjector(lv_obj_t* tab) {
   lv_obj_set_layout(tab, LV_LAYOUT_FLEX);
   lv_obj_set_flex_flow(tab, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_scrollbar_mode(tab, LV_SCROLLBAR_MODE_ACTIVE);
+  lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_row(tab, 2, LV_PART_MAIN);
 
   for (const ButtonDef& def : buttons) {
     lv_obj_t* button = lv_btn_create(tab);
-    lv_obj_set_size(button, 100, 40);
+    lv_obj_set_size(button, LV_PCT(100), 40);
     lv_obj_set_style_radius(button, 10, LV_PART_MAIN);
     lv_obj_set_style_bg_color(button, color_primary, LV_PART_MAIN);
     lv_obj_add_event_cb(button, button_clicked_event_cb, LV_EVENT_CLICKED, (void*)def.command);

@@ -30,27 +30,21 @@ void scene_setKeys_directDeviceControl() {
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
                                                          {KEY_DOWN,  SHORT_REPEATED   },
                                                                                                              {KEY_SRC,   SHORT            },
-                                                                                                             {KEY_CHUP,  SHORT            },
-                                                                                                             {KEY_CHDOW, SHORT            },
+    {KEY_VOLUP, SHORT_REPEATED   },                      {KEY_MUTE,  SHORT            },                     {KEY_CHUP,  SHORT            },
+    {KEY_VOLDO, SHORT_REPEATED   },                      {KEY_CHDOW, SHORT            },
                                                                                                              {KEY_OFF,   SHORT            },
-                                                                                                             {KEY_VOLUP, SHORT_REPEATED   },
-                                                                                                             {KEY_VOLDO, SHORT_REPEATED   },
-                                                                                                             {KEY_MUTE,  SHORT            },
   };
 
   key_commands_short_directDeviceControl = {
-    {KEY_STOP,  PHILIPS_PAUSE    },    {KEY_REWI,  PHILIPS_REWIND   },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_FORW,  PHILIPS_FASTFORWARD},
+    {KEY_STOP,  PHILIPS_EXIT     },    {KEY_REWI,  PHILIPS_INPUT_HDMI_1},  {KEY_PLAY,  PHILIPS_INPUT_HDMI_2},  {KEY_FORW,  PHILIPS_INPUT_EXTERNAL},
     {KEY_CONF,  PHILIPS_GUIDE    },                                                                          {KEY_INFO,  PHILIPS_MENU     },
                                                          {KEY_UP,    PHILIPS_UP       },
                       {KEY_LEFT,  PHILIPS_LEFT    },     {KEY_OK,    PHILIPS_SELECT   },    {KEY_RIGHT, PHILIPS_RIGHT    },
                                                          {KEY_DOWN,  PHILIPS_DOWN     },
-                                                                                                             {KEY_SRC,   PHILIPS_EXIT     },
-                                                                                                             {KEY_CHUP,  PHILIPS_CHANNEL_UP},
-                                                                                                             {KEY_CHDOW, PHILIPS_CHANNEL_DOWN},
-                                                                                                             {KEY_OFF,   PHILIPS_POWER_OFF},
-                                                                                                             {KEY_VOLUP, TEUFEL_VOL_PLUS  },
-                                                                                                             {KEY_VOLDO, TEUFEL_VOL_MINUS },
-                                                                                                             {KEY_MUTE,  TEUFEL_MUTE_TOGGLE},
+                                                                                                             {KEY_SRC,   PHILIPS_POWER_TOGGLE },
+    {KEY_VOLUP, PHILIPS_VOL_UP   },                      {KEY_MUTE,  PHILIPS_MUTE     },                     {KEY_CHUP,  PHILIPS_CHANNEL_UP},
+    {KEY_VOLDO, PHILIPS_VOL_DOWN },                      {KEY_CHDOW, PHILIPS_CHANNEL_DOWN},
+                                                                                                             {KEY_OFF,   PHILIPS_POWER_TOGGLE},
   };
 
   key_commands_long_directDeviceControl = {

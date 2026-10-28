@@ -11,26 +11,23 @@ struct ButtonDef {
 };
 
 static const ButtonDef buttons[] = {
+  {"Power", &PHILIPS_POWER_TOGGLE},
   {"Power On", &PHILIPS_POWER_ON},
-  {"Power Off", &PHILIPS_POWER_OFF},
-  {"TV", &PHILIPS_INPUT_TV},
+  {"Input", &PHILIPS_INPUT_EXTERNAL},
   {"HDMI 1", &PHILIPS_INPUT_HDMI_1},
   {"HDMI 2", &PHILIPS_INPUT_HDMI_2},
-  {"HDMI 3", &PHILIPS_INPUT_HDMI_3},
-  {"Menu", &PHILIPS_MENU},
   {"Guide", &PHILIPS_GUIDE},
+  {"Vol +", &PHILIPS_VOL_UP},
+  {"Vol -", &PHILIPS_VOL_DOWN},
+  {"Mute", &PHILIPS_MUTE},
+  {"Menu", &PHILIPS_MENU},
   {"Up", &PHILIPS_UP},
   {"Down", &PHILIPS_DOWN},
   {"Left", &PHILIPS_LEFT},
   {"Right", &PHILIPS_RIGHT},
-  {"Select", &PHILIPS_SELECT},
   {"Exit", &PHILIPS_EXIT},
   {"Channel +", &PHILIPS_CHANNEL_UP},
   {"Channel -", &PHILIPS_CHANNEL_DOWN},
-  {"Rewind", &PHILIPS_REWIND},
-  {"Play", &PHILIPS_PLAY},
-  {"Pause", &PHILIPS_PAUSE},
-  {"Forward", &PHILIPS_FASTFORWARD},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {
@@ -40,12 +37,14 @@ static void button_clicked_event_cb(lv_event_t* e) {
 
 void create_tab_content_philipsTV(lv_obj_t* tab) {
   lv_obj_set_layout(tab, LV_LAYOUT_FLEX);
-  lv_obj_set_flex_flow(tab, LV_FLEX_FLOW_ROW_WRAP);
+  lv_obj_set_flex_flow(tab, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_scrollbar_mode(tab, LV_SCROLLBAR_MODE_ACTIVE);
+  lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_row(tab, 2, LV_PART_MAIN);
 
   for (const ButtonDef& def : buttons) {
     lv_obj_t* button = lv_btn_create(tab);
-    lv_obj_set_size(button, 100, 40);
+    lv_obj_set_size(button, LV_PCT(100), 40);
     lv_obj_set_style_radius(button, 10, LV_PART_MAIN);
     lv_obj_set_style_bg_color(button, color_primary, LV_PART_MAIN);
     lv_obj_add_event_cb(button, button_clicked_event_cb, LV_EVENT_CLICKED, (void*)def.command);

@@ -27,3 +27,7 @@ extern uint16_t TEUFEL_FASTFORWARD;
 extern uint16_t TEUFEL_PLAY;
 
 void register_device_teufelSConcept();
+
+// Unlabeled codes from the Harmony config, to find out by trial what they do (power, inputs, menu, exit).
+#define TEUFEL_TRY_COUNT 11
+extern uint16_t TEUFEL_TRY[TEUFEL_TRY_COUNT];

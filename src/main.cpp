@@ -42,6 +42,8 @@
 #include "scenes/scene_allOff.h"
 #include "scenes/scene_TV.h"
 #include "scenes/scene_directDeviceControl.h"
+#include "scenes/scene_projector.h"
+#include "scenes/scene_kodi.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 
 #if defined(ARDUINO)
@@ -120,8 +122,10 @@ int main(int argc, char *argv[]) {
   register_scene_TV();
   register_scene_allOff();
   register_scene_directDeviceControl();
+  register_scene_projector();
+  register_scene_kodi();
   // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_TV, scene_name_directDeviceControl});
+  set_scenes_on_sceneSelectionGUI({scene_name_TV, scene_name_projector, scene_name_kodi, scene_name_directDeviceControl});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered
