@@ -6,3 +6,6 @@
 .vscode/ipch
 src/secrets_override.h
 **/.DS_Store
+compile_commands.json
+.gitignore
+INSTRUCTIONS.md
