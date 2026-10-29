@@ -47,14 +47,39 @@ void get_battery_status_HAL(int *battery_voltage, int *battery_percentage, bool 
     //Serial.print(fuelGauge.getSOC(), 2); // Print the battery state of charge with 2 decimal places
     //Serial.println("%");
   #else
-    int battery_analogRead = 0;
-
-    battery_analogRead = analogRead(ADC_BAT_GPIO);
+    // The ADC is noisy and the battery voltage sags under load (IR, BLE, backlight). So oversample, then smooth over time.
+    uint32_t sum = 0;
+    for (int i = 0; i < 32; i++) {
+      sum += analogRead(ADC_BAT_GPIO);
+    }
+    int battery_analogRead = sum / 32;
     // original values
     // battery_voltage = battery_analogRead*2*3300/4095 + 350; // 350mV ADC offset
     // adjusted values due to new measurements
-    *battery_voltage = battery_analogRead*2*3350/4095 + 325;
-    *battery_percentage = constrain(map(*battery_voltage, 3700, 4200, 0, 100), 0, 100);
+    int rawVoltage = battery_analogRead*2*3350/4095 + 325;
+    static float smoothedVoltage = 0;
+    if (smoothedVoltage == 0) {
+      smoothedVoltage = rawVoltage;
+    } else {
+      smoothedVoltage += 0.05f * (rawVoltage - smoothedVoltage);
+    }
+    *battery_voltage = (int)smoothedVoltage;
+
+    // typical LiPo discharge curve (mV -> %), interpolated
+    static const int curve[][2] = {{3300, 0}, {3500, 5}, {3600, 10}, {3700, 25}, {3800, 45}, {3900, 60}, {4000, 75}, {4100, 90}, {4200, 100}};
+    const int points = sizeof(curve) / sizeof(curve[0]);
+    int percentage = 100;
+    if (*battery_voltage <= curve[0][0]) {
+      percentage = 0;
+    } else {
+      for (int i = 1; i < points; i++) {
+        if (*battery_voltage <= curve[i][0]) {
+          percentage = map(*battery_voltage, curve[i-1][0], curve[i][0], curve[i-1][1], curve[i][1]);
+          break;
+        }
+      }
+    }
+    *battery_percentage = constrain(percentage, 0, 100);
     // Check if battery is charging, fully charged or disconnected
     /*
       "disconnected" cannot be recognized
