@@ -15,20 +15,26 @@ static const ButtonDef buttons[] = {
   {"Power", &PHILIPS_POWER_TOGGLE},
   {"Power On", &PHILIPS_POWER_ON},
   {"Input", &PHILIPS_INPUT_EXTERNAL},
-  {"HDMI 1", &PHILIPS_INPUT_HDMI_1},
-  {"HDMI 2", &PHILIPS_INPUT_HDMI_2},
+  {"Sources", &PHILIPS_SOURCES},
+  {"HDMI Side", &PHILIPS_INPUT_SIDE},
+  {"EXT", &PHILIPS_INPUT_EXT},
+  {"Try input 1", &PHILIPS_INPUT_TRY_1},
+  {"Try input 2", &PHILIPS_INPUT_TRY_2},
+  {"Try input 3", &PHILIPS_INPUT_TRY_3},
+  {"Try input 4", &PHILIPS_INPUT_TRY_4},
   {"Guide", &PHILIPS_GUIDE},
   {"Vol +", &PHILIPS_VOL_UP},
   {"Vol -", &PHILIPS_VOL_DOWN},
   {"Mute", &PHILIPS_MUTE},
   {"Menu", &PHILIPS_MENU},
+  {"Home", &PHILIPS_HOME},
+  {"Options", &PHILIPS_OPTIONS},
   {"Up", &PHILIPS_UP},
   {"Down", &PHILIPS_DOWN},
   {"Left", &PHILIPS_LEFT},
   {"Right", &PHILIPS_RIGHT},
+  {"OK", &PHILIPS_SELECT},
   {"Exit", &PHILIPS_EXIT},
-  {"Channel +", &PHILIPS_CHANNEL_UP},
-  {"Channel -", &PHILIPS_CHANNEL_DOWN},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {
@@ -65,8 +71,21 @@ static std::map<char, uint16_t> key_commands_short_philipsTV;
 static std::map<char, uint16_t> key_commands_long_philipsTV;
 
 static void gui_setKeys_philipsTV(void) {
-  key_repeatModes_philipsTV = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
-  key_commands_short_philipsTV = {{KEY_UP, PHILIPS_UP}, {KEY_DOWN, PHILIPS_DOWN}, {KEY_LEFT, PHILIPS_LEFT}, {KEY_RIGHT, PHILIPS_RIGHT}, {KEY_OK, PHILIPS_SELECT}};
+  key_commands_short_philipsTV = {
+    {KEY_STOP, PHILIPS_STOP}, {KEY_REWI, PHILIPS_REWIND}, {KEY_PLAY, PHILIPS_PLAY}, {KEY_FORW, PHILIPS_FASTFORWARD},
+    {KEY_CONF, PHILIPS_GUIDE}, {KEY_INFO, PHILIPS_MENU},
+    {KEY_UP, PHILIPS_UP}, {KEY_DOWN, PHILIPS_DOWN}, {KEY_LEFT, PHILIPS_LEFT}, {KEY_RIGHT, PHILIPS_RIGHT}, {KEY_OK, PHILIPS_SELECT},
+    {KEY_SRC, PHILIPS_SOURCES}, {KEY_CHUP, PHILIPS_CHANNEL_UP}, {KEY_CHDOW, PHILIPS_CHANNEL_DOWN},
+    {KEY_VOLUP, PHILIPS_VOL_UP}, {KEY_VOLDO, PHILIPS_VOL_DOWN}, {KEY_MUTE, PHILIPS_MUTE},
+  };
+  key_commands_long_philipsTV = {{KEY_INFO, PHILIPS_EXIT}, {KEY_CONF, PHILIPS_HOME}, {KEY_SRC, PHILIPS_POWER_TOGGLE}};
+  for (const auto& entry : key_commands_short_philipsTV) {
+    bool repeated = (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT) || (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO);
+    key_repeatModes_philipsTV[entry.first] = repeated ? SHORT_REPEATED : SHORT;
+  }
+  key_repeatModes_philipsTV[KEY_INFO] = SHORTorLONG;
+  key_repeatModes_philipsTV[KEY_CONF] = SHORTorLONG;
+  key_repeatModes_philipsTV[KEY_SRC] = SHORTorLONG;
 }
 
 void register_gui_philipsTV(void) {

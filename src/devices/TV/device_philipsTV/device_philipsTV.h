@@ -1,6 +1,6 @@
 #pragma once
 
-// Philips TV IR codes (RC5, from irdb). Commands without a code are not implemented yet.
+// Philips TV IR codes (RC5 and RC6, from irdb/Flipper-IRDB). Commands without a code are not implemented yet.
 extern uint16_t PHILIPS_NUM_0;
 extern uint16_t PHILIPS_NUM_1;
 extern uint16_t PHILIPS_NUM_2;
@@ -32,9 +32,16 @@ extern uint16_t PHILIPS_REWIND;
 extern uint16_t PHILIPS_PAUSE;
 extern uint16_t PHILIPS_FASTFORWARD;
 extern uint16_t PHILIPS_PLAY;
-extern uint16_t PHILIPS_INPUT_HDMI_1;
-extern uint16_t PHILIPS_INPUT_HDMI_2;
-extern uint16_t PHILIPS_INPUT_HDMI_3;
-extern uint16_t PHILIPS_INPUT_TV;
+extern uint16_t PHILIPS_INPUT_SIDE;
+extern uint16_t PHILIPS_INPUT_EXT;
+extern uint16_t PHILIPS_INPUT_TRY_1;
+extern uint16_t PHILIPS_INPUT_TRY_2;
+extern uint16_t PHILIPS_INPUT_TRY_3;
+extern uint16_t PHILIPS_INPUT_TRY_4;
+extern uint16_t PHILIPS_STOP;
+extern uint16_t PHILIPS_HOME;
+extern uint16_t PHILIPS_BACK;
+extern uint16_t PHILIPS_OPTIONS;
+extern uint16_t PHILIPS_SOURCES;
 
 void register_device_philipsTV();
