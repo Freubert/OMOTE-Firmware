@@ -32,6 +32,7 @@
 #include "guis/gui_BLEpairing.h"
 #include "devices/TV/device_philipsTV/gui_philipsTV.h"
 #include "devices/AVreceiver/device_teufelSConcept/gui_teufelSConcept.h"
+#include "devices/AVreceiver/device_teufelSConcept/gui_teufelScan.h"
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
 #include "devices/mediaPlayer/device_kodi/gui_kodi.h"
@@ -93,13 +94,16 @@ int main(int argc, char *argv[]) {
   register_device_keyboard_ble();
   #endif
   register_keyboardCommands();
+  register_device_kodi();
 
   // Register the GUIs. They will be displayed in the order they have been registered.
   register_gui_philipsTV();
   register_gui_teufelSConcept();
+  register_gui_teufelScan();
   register_gui_epsonProjector();
   register_gui_athenVS482();
   register_gui_kodi();
+  register_gui_kodiMore();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
@@ -109,7 +113,7 @@ int main(int argc, char *argv[]) {
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_philipsTV, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
+    {tabName_philipsTV, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector, tabName_athenVS482, tabName_kodi, tabName_kodiMore
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
