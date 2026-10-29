@@ -83,42 +83,46 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_set_layout(tab, LV_LAYOUT_FLEX);
   lv_obj_set_flex_flow(tab, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_scrollbar_mode(tab, LV_SCROLLBAR_MODE_ACTIVE);
+  lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
 
   // Add a label, then a box for the display settings -----------------------------------------
   lv_obj_t* menuLabel = lv_label_create(tab);
   lv_label_set_text(menuLabel, "Display");
 
   lv_obj_t* menuBox = lv_obj_create(tab);
-  lv_obj_set_size(menuBox, lv_pct(100), 141);
+  lv_obj_set_size(menuBox, lv_pct(100), 190);
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
 
   lv_obj_t* brightnessIcon = lv_img_create(menuBox);
   lv_img_set_src(brightnessIcon, &low_brightness);
   lv_obj_set_style_img_recolor(brightnessIcon, lv_color_white(), LV_PART_MAIN);
   lv_obj_set_style_img_recolor_opa(brightnessIcon, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_align(brightnessIcon, LV_ALIGN_TOP_LEFT, 0, 0);
+  lv_obj_add_flag(brightnessIcon, LV_OBJ_FLAG_HIDDEN);
   lv_obj_t* slider = lv_slider_create(menuBox);
   lv_slider_set_range(slider, 60, 255);
   lv_obj_set_style_bg_color(slider, lv_color_white(), LV_PART_KNOB);
   lv_obj_set_style_bg_opa(slider, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_set_style_bg_color(slider, lv_color_lighten(color_primary, 50), LV_PART_MAIN);
   lv_slider_set_value(slider, get_backlightBrightness(), LV_ANIM_OFF);
-  lv_obj_set_size(slider, lv_pct(66), 10);
-  lv_obj_align(slider, LV_ALIGN_TOP_MID, 0, 3);
+  lv_obj_set_size(slider, lv_pct(100), 16);
+  lv_obj_align(slider, LV_ALIGN_TOP_LEFT, 0, 6);
   brightnessIcon = lv_img_create(menuBox);
   lv_img_set_src(brightnessIcon, &high_brightness);
   lv_obj_set_style_img_recolor(brightnessIcon, lv_color_white(), LV_PART_MAIN);
   lv_obj_set_style_img_recolor_opa(brightnessIcon, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_align(brightnessIcon, LV_ALIGN_TOP_RIGHT, 0, -1);
+  lv_obj_add_flag(brightnessIcon, LV_OBJ_FLAG_HIDDEN);
   lv_obj_add_event_cb(slider, bl_slider_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
   
   menuLabel = lv_label_create(menuBox);
   lv_label_set_text(menuLabel, "Lift to Wake");
-  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 32);
+  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 30);
   lv_obj_t* wakeToggle = lv_switch_create(menuBox);
-  lv_obj_set_size(wakeToggle, 40, 22);
-  lv_obj_align(wakeToggle, LV_ALIGN_TOP_RIGHT, 0, 29);
+  lv_obj_set_size(wakeToggle, lv_pct(100), 26);
+  lv_obj_align(wakeToggle, LV_ALIGN_TOP_LEFT, 0, 46);
   lv_obj_set_style_bg_color(wakeToggle, lv_color_hex(0x505050), LV_PART_MAIN);
   lv_obj_add_event_cb(wakeToggle, WakeEnableSetting_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
   if (get_wakeupByIMUEnabled()) {
@@ -129,7 +133,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
 
   menuLabel = lv_label_create(menuBox);
   lv_label_set_text(menuLabel, "Sensitivity");
-  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 64);
+  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 78);
   lv_obj_t* drop = lv_dropdown_create(menuBox);
   lv_dropdown_set_options(drop, "low\n"
                                 "mid\n"
@@ -141,8 +145,8 @@ void create_tab_content_settings(lv_obj_t* tab) {
     case  50: {lv_dropdown_set_selected(drop, 2); break;}
   }
   lv_dropdown_set_selected_highlight(drop, true);
-  lv_obj_align(drop, LV_ALIGN_TOP_RIGHT, 0, 61);
-  lv_obj_set_size(drop, 70, 22);
+  lv_obj_align(drop, LV_ALIGN_TOP_LEFT, 0, 94);
+  lv_obj_set_size(drop, lv_pct(100), 26);
   //lv_obj_set_style_text_font(drop, &lv_font_montserrat_12, LV_PART_MAIN);
   //lv_obj_set_style_text_font(lv_dropdown_get_list(drop), &lv_font_montserrat_12, LV_PART_MAIN);
   lv_obj_set_style_pad_top(drop, 1, LV_PART_MAIN);
@@ -154,7 +158,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
 
   menuLabel = lv_label_create(menuBox);
   lv_label_set_text(menuLabel, "Timeout");
-  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 96);
+  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 126);
   drop = lv_dropdown_create(menuBox);
   lv_dropdown_set_options(drop, "10s\n"
                                 "20s\n"
@@ -174,8 +178,8 @@ void create_tab_content_settings(lv_obj_t* tab) {
     case 3600000: {lv_dropdown_set_selected(drop, 6); break;}
   }
   lv_dropdown_set_selected_highlight(drop, true);
-  lv_obj_align(drop, LV_ALIGN_TOP_RIGHT, 0, 93);
-  lv_obj_set_size(drop, 70, 22);
+  lv_obj_align(drop, LV_ALIGN_TOP_LEFT, 0, 142);
+  lv_obj_set_size(drop, lv_pct(100), 26);
   //lv_obj_set_style_text_font(drop, &lv_font_montserrat_12, LV_PART_MAIN);
   //lv_obj_set_style_text_font(lv_dropdown_get_list(drop), &lv_font_montserrat_12, LV_PART_MAIN);
   lv_obj_set_style_pad_top(drop, 1, LV_PART_MAIN);
@@ -192,6 +196,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
   // lv_obj_set_size(menuBox, lv_pct(100), 80);
   // lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   // lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
   // menuLabel = lv_label_create(menuBox);
   // lv_label_set_text(menuLabel, "Network");
   // menuLabel = lv_label_create(menuBox);
@@ -212,25 +217,28 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_set_size(menuBox, lv_pct(100), 44);
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
   
   brightnessIcon = lv_img_create(menuBox);
   lv_img_set_src(brightnessIcon, &low_brightness);
   lv_obj_set_style_img_recolor(brightnessIcon, lv_color_white(), LV_PART_MAIN);
   lv_obj_set_style_img_recolor_opa(brightnessIcon, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_align(brightnessIcon, LV_ALIGN_TOP_LEFT, 0, 0);
+  lv_obj_add_flag(brightnessIcon, LV_OBJ_FLAG_HIDDEN);
   slider = lv_slider_create(menuBox);
   lv_slider_set_range(slider, 0, 255);
   lv_obj_set_style_bg_color(slider, lv_color_white(), LV_PART_KNOB);
   lv_obj_set_style_bg_opa(slider, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_set_style_bg_color(slider, lv_color_lighten(color_primary, 50), LV_PART_MAIN);
   lv_slider_set_value(slider, get_keyboardBrightness(), LV_ANIM_OFF);
-  lv_obj_set_size(slider, lv_pct(66), 10);
-  lv_obj_align(slider, LV_ALIGN_TOP_MID, 0, 3);
+  lv_obj_set_size(slider, lv_pct(100), 16);
+  lv_obj_align(slider, LV_ALIGN_TOP_LEFT, 0, 6);
   brightnessIcon = lv_img_create(menuBox);
   lv_img_set_src(brightnessIcon, &high_brightness);
   lv_obj_set_style_img_recolor(brightnessIcon, lv_color_white(), LV_PART_MAIN);
   lv_obj_set_style_img_recolor_opa(brightnessIcon, LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_align(brightnessIcon, LV_ALIGN_TOP_RIGHT, 0, -1);
+  lv_obj_add_flag(brightnessIcon, LV_OBJ_FLAG_HIDDEN);
   lv_obj_add_event_cb(slider, kb_slider_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
   #endif
 
@@ -241,6 +249,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_set_size(menuBox, lv_pct(100), 77); // 125
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
   
   objBattSettingsVoltage = lv_label_create(menuBox);
   lv_label_set_text(objBattSettingsVoltage, "Voltage:");
@@ -257,16 +266,17 @@ void create_tab_content_settings(lv_obj_t* tab) {
   menuLabel = lv_label_create(tab);
   lv_label_set_text(menuLabel, "Memory usage");
   menuBox = lv_obj_create(tab);
-  lv_obj_set_size(menuBox, lv_pct(100), 48);
+  lv_obj_set_size(menuBox, lv_pct(100), 56);
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
   
   menuLabel = lv_label_create(menuBox);
   lv_label_set_text(menuLabel, "Show mem usage");
-  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 3);
+  lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 0);
   lv_obj_t* memoryUsageToggle = lv_switch_create(menuBox);
-  lv_obj_set_size(memoryUsageToggle, 40, 22);
-  lv_obj_align(memoryUsageToggle, LV_ALIGN_TOP_RIGHT, 0, 0);
+  lv_obj_set_size(memoryUsageToggle, lv_pct(100), 26);
+  lv_obj_align(memoryUsageToggle, LV_ALIGN_TOP_LEFT, 0, 18);
   lv_obj_set_style_bg_color(memoryUsageToggle, lv_color_hex(0x505050), LV_PART_MAIN);
   lv_obj_add_event_cb(memoryUsageToggle, showMemoryUsage_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
   if (getShowMemoryUsage()) {

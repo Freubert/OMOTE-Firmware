@@ -219,18 +219,17 @@ void create_textarea(lv_obj_t* tab, lv_coord_t width, lv_coord_t height, lv_coor
 }
 
 void create_tab_content_blepairing(lv_obj_t* tab) {
-  create_button       (tab, 100,  24,   0,   0, "start advert.",  0);
-  create_button       (tab, 100,  24, 112,   0, "stop advert.",   1);
-  
-  create_dropdownPeers(tab, 212,  24,   0,  30,                   2);
-
-  create_button       (tab, 100,  24,   0,  60, "print connected", 3);
-  create_button       (tab, 100,  24, 112,  60, "disconnect",     4);
-
-  create_button       (tab, 100,  24,   0,  90, "print bonds",    5);
-  create_button       (tab, 100,  24, 112,  90, "delete bonds",   6);
-
-  create_textarea     (tab, 212, 124,   0, 120                     );
+  // single full-width column, the touch x-axis is unusable
+  lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
+  const lv_coord_t W = LV_PCT(100);
+  create_button       (tab, W, 32,   0,   0, "start advert.",   0);
+  create_button       (tab, W, 32,   0,  36, "stop advert.",    1);
+  create_dropdownPeers(tab, W, 32,   0,  72,                    2);
+  create_button       (tab, W, 32,   0, 108, "print connected", 3);
+  create_button       (tab, W, 32,   0, 144, "disconnect",      4);
+  create_button       (tab, W, 32,   0, 180, "print bonds",     5);
+  create_button       (tab, W, 32,   0, 216, "delete bonds",    6);
+  create_textarea     (tab, W, 100,  0, 252                      );
 
   // Create a shared event for all buttons inside container
   lv_obj_add_event_cb(tab, BLEpairing_event_cb, LV_EVENT_CLICKED, NULL);

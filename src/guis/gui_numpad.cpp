@@ -32,8 +32,8 @@ void create_tab_content_numpad(lv_obj_t* tab) {
 
   // Configure number button grid
   // A variable declared static inside a function is visible only inside that function, exists only once (not created/destroyed for each call) and is permanent. It is in a sense a private global variable.
-  static lv_coord_t col_dsc[] = { LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST }; // equal x distribution
-  static lv_coord_t row_dsc[] = { 52, 52, 52, 52, LV_GRID_TEMPLATE_LAST }; // manual y distribution to compress the grid a bit
+  static lv_coord_t col_dsc[] = { LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST }; // one full-width column, a column of three would be out of reach with a broken x-axis
+  static lv_coord_t row_dsc[] = { 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, LV_GRID_TEMPLATE_LAST };
 
   // Create a container with grid for tab
   lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
@@ -43,7 +43,9 @@ void create_tab_content_numpad(lv_obj_t* tab) {
   lv_obj_set_style_border_width(cont, 0, LV_PART_MAIN);
   lv_obj_set_style_grid_column_dsc_array(cont, col_dsc, 0);
   lv_obj_set_style_grid_row_dsc_array(cont, row_dsc, 0);
-  lv_obj_set_size(cont, SCR_WIDTH, 270);
+  lv_obj_set_size(cont, SCR_WIDTH, 440);
+  lv_obj_set_style_pad_all(cont, 0, LV_PART_MAIN);
+  lv_obj_set_style_pad_row(cont, 2, LV_PART_MAIN);
   lv_obj_set_layout(cont, LV_LAYOUT_GRID);
   lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 0);
   lv_obj_set_style_radius(cont, 0, LV_PART_MAIN);
@@ -53,10 +55,10 @@ void create_tab_content_numpad(lv_obj_t* tab) {
 
   // Iterate through grid buttons configure them
   for (int i = 0; i < 12; i++) {
-    uint8_t col = i % 3;
-    uint8_t row = i / 3;
+    uint8_t col = 0;
+    uint8_t row = (i < 9) ? i : 9; // 1..9, then 0
     // Create the button object
-    if ((row == 3) && ((col == 0) || (col == 2))) continue; // Do not create a complete fourth row, only a 0 button
+    if (i == 10 || i == 11) continue;
     obj = lv_btn_create(cont);
     lv_obj_set_grid_cell(obj, LV_GRID_ALIGN_STRETCH, col, 1, LV_GRID_ALIGN_STRETCH, row, 1);
     lv_obj_set_style_bg_color(obj, color_primary, LV_PART_MAIN);

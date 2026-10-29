@@ -98,6 +98,7 @@ void create_tab_content_sceneSelection(lv_obj_t* tab) {
   lv_obj_set_layout(tab, LV_LAYOUT_FLEX);
   lv_obj_set_flex_flow(tab, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_scrollbar_mode(tab, LV_SCROLLBAR_MODE_ACTIVE);
+  lv_obj_set_style_pad_all(tab, 0, LV_PART_MAIN);
 
   // -- create a button for each scene ----------------------------------------
   scene_list scenes = get_scenes_on_sceneSelectionGUI();
