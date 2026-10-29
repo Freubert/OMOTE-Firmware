@@ -88,6 +88,12 @@ void keyboard_ble_executeCommand(uint16_t command, std::list<std::string> comman
     return;
   }
 
+  // a single payload is a raw key code (e.g. for the Kodi keyboard shortcuts)
+  if (commandPayloads.size() == 1) {
+    keyboardBLE_write((uint8_t)std::stoi(commandPayloads.front()));
+    return;
+  }
+
   if (commandToBeSent == KEYBOARD_BLE_UP) {
     if (doLog) {omote_log_d("UP received\r\n");}
     keyboardBLE_write(BLE_KEY_UP_ARROW);

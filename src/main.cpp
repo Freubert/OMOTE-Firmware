@@ -36,6 +36,7 @@
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
 #include "devices/mediaPlayer/device_kodi/gui_kodi.h"
+#include "devices/mediaPlayer/device_kodi/device_kodi.h"
 #include "applicationInternal/keys.h"
 #include "applicationInternal/gui/guiStatusUpdate.h"
 // register scenes

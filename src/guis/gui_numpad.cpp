@@ -8,6 +8,8 @@
 #include "applicationInternal/commandHandler.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 #include "scenes/scene_TV.h"
+#include "scenes/scene_kodi.h"
+#include "devices/mediaPlayer/device_kodi/device_kodi.h"
 #include "devices/TV/device_philipsTV/device_philipsTV.h"
 
 // Virtual Keypad Event handler
@@ -22,6 +24,10 @@ static void virtualKeypad_event_cb(lv_event_t* e) {
     uint16_t virtualKeyMapTVNumbers[10] = {PHILIPS_NUM_1, PHILIPS_NUM_2, PHILIPS_NUM_3, PHILIPS_NUM_4, PHILIPS_NUM_5, PHILIPS_NUM_6, PHILIPS_NUM_7, PHILIPS_NUM_8, PHILIPS_NUM_9, PHILIPS_NUM_0};
     uint16_t command = virtualKeyMapTVNumbers[user_data];
     executeCommand(command);
+
+  } else if (gui_memoryOptimizer_getActiveSceneName() == scene_name_kodi) {
+    // buttons are 1..9, then 0
+    executeCommand(KODI_NUM[(user_data + 1) % 10]);
 
   } else {
     omote_log_w("gui_numpad: no known scene is active, don't know what to do with user_data %d\r\n", user_data);
