@@ -43,7 +43,7 @@ void register_scene_defaultKeys(void) {
                                                          {KEY_UP,    SHORT            },
                       {KEY_LEFT,  SHORT            },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT            },
                                                          {KEY_DOWN,  SHORT            },
-    {KEY_BACK,  SHORT            },                                                                          {KEY_SRC,   SHORT            },
+    {KEY_BACK,  SHORTorLONG      },                                                                          {KEY_SRC,   SHORT            },
     {KEY_VOLUP, SHORT_REPEATED   },                      {KEY_MUTE,  SHORT            },                     {KEY_CHUP,  SHORT            },
     {KEY_VOLDO, SHORT_REPEATED   },                      {KEY_REC,   SHORT            },                     {KEY_CHDOW, SHORT            },
     {KEY_RED,   SHORT            },    {KEY_GREEN, SHORT            },    {KEY_YELLO, SHORT            },    {KEY_BLUE,  SHORT            },
@@ -56,13 +56,14 @@ void register_scene_defaultKeys(void) {
                                                      /*  {KEY_UP,    COMMAND_UNKNOWN  },*/
                       /*{KEY_LEFT,  COMMAND_UNKNOWN},*/       /*  {KEY_OK,    COMMAND_UNKNOWN  },*/  /*{KEY_RIGHT, COMMAND_UNKNOWN},*/
                                                      /*  {KEY_DOWN,  COMMAND_UNKNOWN  },*/
-    {KEY_BACK,  SCENE_SELECTION  },                                                                        /*{KEY_SRC,   COMMAND_UNKNOWN  },*/
+                                                                            /*{KEY_SRC,   COMMAND_UNKNOWN  },*/
     {KEY_VOLUP, PHILIPS_VOL_UP   },                      {KEY_MUTE,  PHILIPS_MUTE     },                  /*{KEY_CHUP,  COMMAND_UNKNOWN  },*/
     {KEY_VOLDO, PHILIPS_VOL_DOWN },                      {KEY_REC,   SCENE_BACK_TO_PREVIOUS_GUI_LIST  },   /*{KEY_CHDOW, COMMAND_UNKNOWN  },*/
     {KEY_RED,   GUI_FIRST        },    {KEY_GREEN, GUI_PREV         },    {KEY_YELLO, GUI_NEXT         },    {KEY_BLUE,  GUI_LAST         },
   };
 
   key_commands_long_default = {
+    {KEY_BACK,  SCENE_SELECTION  },
 
   };
 

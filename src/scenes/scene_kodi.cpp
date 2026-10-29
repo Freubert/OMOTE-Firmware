@@ -21,7 +21,7 @@ t_gui_list scene_kodi_gui_list = {tabName_numpad};
 void scene_setKeys_kodi() {
   key_repeatModes_kodi = {
     {KEY_STOP,  SHORTorLONG      },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORT            },    {KEY_FORW,  SHORT            },
-    {KEY_CONF,  SHORT            },                                                                          {KEY_INFO,  SHORTorLONG      },
+    {KEY_BACK,  SHORTorLONG      },    {KEY_CONF,  SHORT            },                                                                          {KEY_INFO,  SHORTorLONG      },
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
                                                          {KEY_DOWN,  SHORT_REPEATED   },
@@ -33,7 +33,7 @@ void scene_setKeys_kodi() {
   // Back is on Stop (long press: stop playback), Info (long press: player controls), Conf is the context menu, Src is Home
   key_commands_short_kodi = {
     {KEY_STOP,  KODI_BACK        },    {KEY_REWI,  KODI_REWIND      },    {KEY_PLAY,  KEYBOARD_PLAYPAUSE},   {KEY_FORW,  KODI_FASTFORWARD},
-    {KEY_CONF,  KODI_CONTEXT     },                                                                          {KEY_INFO,  KODI_INFO        },
+    {KEY_BACK,  KODI_BACK       },    {KEY_CONF,  KODI_CONTEXT     },                                                                          {KEY_INFO,  KODI_INFO        },
                                                          {KEY_UP,    KEYBOARD_UP      },
                       {KEY_LEFT,  KEYBOARD_LEFT   },     {KEY_OK,    KEYBOARD_SELECT  },    {KEY_RIGHT, KEYBOARD_RIGHT   },
                                                          {KEY_DOWN,  KEYBOARD_DOWN    },

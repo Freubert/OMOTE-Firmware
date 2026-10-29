@@ -19,8 +19,8 @@ std::map<char, uint16_t> key_commands_long_TV;
 
 void scene_setKeys_TV() {
   key_repeatModes_TV = {
-    {KEY_STOP,  SHORT            },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORT            },    {KEY_FORW,  SHORT            },
-    {KEY_CONF,  SHORT            },                                                                          {KEY_INFO,  SHORTorLONG      },
+    {KEY_STOP,  SHORT            },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORTorLONG      },    {KEY_FORW,  SHORT            },
+    {KEY_BACK,  SHORTorLONG      },    {KEY_REC,   SHORT            },    {KEY_CONF,  SHORTorLONG      },                                                                          {KEY_INFO,  SHORTorLONG      },
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
                                                          {KEY_DOWN,  SHORT_REPEATED   },
@@ -31,8 +31,8 @@ void scene_setKeys_TV() {
   };
 
   key_commands_short_TV = {
-    {KEY_STOP,  PHILIPS_STOP     },    {KEY_REWI,  PHILIPS_REWIND   },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_FORW,  PHILIPS_FASTFORWARD},
-    {KEY_CONF,  PHILIPS_GUIDE    },                                                                          {KEY_INFO,  PHILIPS_MENU     },
+    {KEY_STOP,  PHILIPS_STOP     },    {KEY_REWI,  PHILIPS_REWIND   },    {KEY_PLAY,  PHILIPS_PAUSE    },    {KEY_FORW,  PHILIPS_FASTFORWARD},
+    {KEY_BACK,  PHILIPS_BACK    },    {KEY_REC,   PHILIPS_HOME     },    {KEY_CONF,  PHILIPS_GUIDE    },                                                                          {KEY_INFO,  PHILIPS_TEXT     },
                                                          {KEY_UP,    PHILIPS_UP       },
                       {KEY_LEFT,  PHILIPS_LEFT    },     {KEY_OK,    PHILIPS_SELECT   },    {KEY_RIGHT, PHILIPS_RIGHT    },
                                                          {KEY_DOWN,  PHILIPS_DOWN     },
@@ -42,7 +42,7 @@ void scene_setKeys_TV() {
 
   };
   key_commands_long_TV = {
-    {KEY_INFO,  PHILIPS_EXIT     },    {KEY_SRC,   PHILIPS_POWER_TOGGLE },
+    {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_SRC,   PHILIPS_OPTIONS  },    {KEY_CONF,  PHILIPS_POWER_TOGGLE },
   };
 
 }

@@ -81,6 +81,15 @@ void doShortPress(char keyChar, int keyCode){
 }
 
 void doLongPress(char keyChar, int keyCode){
+  // Contact bounce while holding a key can re-trigger the long press. Toggling commands (e.g. TV home menu) would then undo themselves.
+  static unsigned long lastLongPress[keypadROWS * keypadCOLS] = {0};
+  unsigned long now = millis();
+  if ((keyCode >= 0) && (keyCode < keypadROWS * keypadCOLS)) {
+    if ((lastLongPress[keyCode] != 0) && (now - lastLongPress[keyCode] < 1500)) {
+      return;
+    }
+    lastLongPress[keyCode] = now;
+  }
   uint16_t command = get_command_long(gui_memoryOptimizer_getActiveSceneName(), keyChar);
   if (command != COMMAND_UNKNOWN) {
     omote_log_d("key: key '%c' (long press), will use command '%u'\r\n", keyChar, command);
