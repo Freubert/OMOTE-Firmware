@@ -68,6 +68,13 @@ int gui_memoryOptimizer_getActiveTabID() {
   return gui_state.activeTabID;
 }
 
+int gui_memoryOptimizer_getActiveGuiListIndex() {
+  if ((gui_state.activeTabID < 0) || (gui_state.activeTabID >= 3)) {
+    return -1;
+  }
+  return gui_state.gui_on_tab[gui_state.activeTabID].gui_list_index;
+}
+
 bool gui_memoryOptimizer_isTabIDInMemory(int tabID) {
   // range check
   if ((tabID < 0) || (tabID >= 3)) {

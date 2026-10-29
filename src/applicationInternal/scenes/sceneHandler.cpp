@@ -73,14 +73,11 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
     if (isGuiNavigationDebounced()) {
       return;
     }
-    int target = 0;
-    if (scene_name == scene_gui_last) {
-      while (gui_memoryOptimizer_isTabIDInMemory(target + 1)) {
-        target++;
-      }
-    }
-    if (target != gui_memoryOptimizer_getActiveTabID()) {
-      setActiveTab(target, LV_ANIM_ON, true);
+    // Only three tabs are kept in memory, so the target tab has to be created by its index in the gui list
+    int current = gui_memoryOptimizer_getActiveGuiListIndex();
+    int target = (scene_name == scene_gui_last) ? (int)get_gui_list_active_withFallback()->size() - 1 : 0;
+    if ((current >= 0) && (target != current)) {
+      guis_doTabCreationForSpecificGUI(gui_memoryOptimizer_getActiveGUIlist(), target);
     }
     return;
   }

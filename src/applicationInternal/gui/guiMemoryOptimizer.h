@@ -16,6 +16,7 @@ void gui_memoryOptimizer_navigateToGUI(lv_obj_t** tabview, lv_obj_t** panel, lv_
 void gui_memoryOptimizer_navigateToLastActiveGUIofPreviousGUIlist(lv_obj_t** tabview, lv_obj_t** panel, lv_obj_t** img1, lv_obj_t** img2);
 
 int gui_memoryOptimizer_getActiveTabID();
+int gui_memoryOptimizer_getActiveGuiListIndex();
 bool gui_memoryOptimizer_isTabIDInMemory(int tabID);
 bool gui_memoryOptimizer_isGUInameInMemory(std::string GUIname);
 
