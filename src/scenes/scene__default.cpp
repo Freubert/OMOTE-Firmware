@@ -50,13 +50,12 @@ void register_scene_defaultKeys(void) {
     /*{KEY_REWI,  COMMAND_UNKNOWN  }, {KEY_PLAY,  COMMAND_UNKNOWN  },    {KEY_FORW,  COMMAND_UNKNOWN  },*/
   /*{KEY_CONF,  COMMAND_UNKNOWN  },                                                                          {KEY_INFO,  COMMAND_UNKNOWN  },*/
                                                      /*  {KEY_UP,    COMMAND_UNKNOWN  },*/
-                      {KEY_LEFT,  GUI_PREV  },       /*  {KEY_OK,    COMMAND_UNKNOWN  },*/  {KEY_RIGHT, GUI_NEXT  },
+                      /*{KEY_LEFT,  COMMAND_UNKNOWN},*/       /*  {KEY_OK,    COMMAND_UNKNOWN  },*/  /*{KEY_RIGHT, COMMAND_UNKNOWN},*/
                                                      /*  {KEY_DOWN,  COMMAND_UNKNOWN  },*/
     {KEY_BACK,  SCENE_SELECTION  },                                                                        /*{KEY_SRC,   COMMAND_UNKNOWN  },*/
     {KEY_VOLUP, PHILIPS_VOL_UP   },                      {KEY_MUTE,  PHILIPS_MUTE     },                  /*{KEY_CHUP,  COMMAND_UNKNOWN  },*/
     {KEY_VOLDO, PHILIPS_VOL_DOWN },                      {KEY_REC,   SCENE_BACK_TO_PREVIOUS_GUI_LIST  },   /*{KEY_CHDOW, COMMAND_UNKNOWN  },*/
-    {KEY_RED,   SCENE_TV_FORCE   },    {KEY_GREEN, SCENE_DIRECT_DEVICE_CONTROL_FORCE},
-    {KEY_YELLO, SCENE_PROJECTOR_FORCE},    {KEY_BLUE,  SCENE_KODI_FORCE},
+    {KEY_RED,   GUI_PREV         },                                                                          {KEY_BLUE,  GUI_NEXT         },
   };
 
   key_commands_long_default = {

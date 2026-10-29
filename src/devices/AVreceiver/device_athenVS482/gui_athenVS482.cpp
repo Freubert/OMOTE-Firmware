@@ -1,6 +1,7 @@
 #include <lvgl.h>
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
+#include "applicationInternal/scenes/sceneRegistry.h"
 #include "applicationInternal/commandHandler.h"
 #include "device_athenVS482.h"
 #include "gui_athenVS482.h"
@@ -49,6 +50,17 @@ void create_tab_content_athenVS482(lv_obj_t* tab) {
 void notify_tab_before_delete_athenVS482(void) {
 }
 
+// While this tab is shown, the arrow keys on the remote control this device
+static std::map<char, repeatModes> key_repeatModes_athenVS482;
+static std::map<char, uint16_t> key_commands_short_athenVS482;
+static std::map<char, uint16_t> key_commands_long_athenVS482;
+
+static void gui_setKeys_athenVS482(void) {
+  key_repeatModes_athenVS482 = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
+  key_commands_short_athenVS482 = {{KEY_UP, ATHEN_UP}, {KEY_DOWN, ATHEN_DOWN}, {KEY_LEFT, ATHEN_LEFT}, {KEY_RIGHT, ATHEN_RIGHT}, {KEY_OK, ATHEN_SELECT}};
+}
+
 void register_gui_athenVS482(void) {
-  register_gui(std::string(tabName_athenVS482), & create_tab_content_athenVS482, & notify_tab_before_delete_athenVS482);
+  register_gui(std::string(tabName_athenVS482), & create_tab_content_athenVS482, & notify_tab_before_delete_athenVS482,
+    & gui_setKeys_athenVS482, & key_repeatModes_athenVS482, & key_commands_short_athenVS482, & key_commands_long_athenVS482);
 }

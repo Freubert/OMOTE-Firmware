@@ -44,8 +44,6 @@ void register_scene_allOff(void) {
 
 void scene_start_sequence_allOff(void) {
   // Turn off all devices
-  executeCommand(TEUFEL_POWER_OFF);
-  delay(500);
   executeCommand(ATHEN_POWER_OFF);
   delay(500);
   executeCommand(EPSON_POWER_OFF);

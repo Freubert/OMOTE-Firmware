@@ -48,10 +48,6 @@ void scene_setKeys_TV() {
 
 void scene_start_sequence_TV(void) {
   executeCommand(PHILIPS_POWER_TOGGLE);
-  delay(500);
-  executeCommand(TEUFEL_POWER_ON);
-  delay(1500);
-  executeCommand(TEUFEL_INPUT_TV);
 
 }
 

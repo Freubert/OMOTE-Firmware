@@ -1,6 +1,7 @@
 #include <lvgl.h>
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
+#include "applicationInternal/scenes/sceneRegistry.h"
 #include "applicationInternal/commandHandler.h"
 #include "gui_kodi.h"
 
@@ -47,6 +48,17 @@ void create_tab_content_kodi(lv_obj_t* tab) {
 void notify_tab_before_delete_kodi(void) {
 }
 
+// While this tab is shown, the arrow keys on the remote control this device
+static std::map<char, repeatModes> key_repeatModes_kodi;
+static std::map<char, uint16_t> key_commands_short_kodi;
+static std::map<char, uint16_t> key_commands_long_kodi;
+
+static void gui_setKeys_kodi(void) {
+  key_repeatModes_kodi = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
+  key_commands_short_kodi = {{KEY_UP, KEYBOARD_UP}, {KEY_DOWN, KEYBOARD_DOWN}, {KEY_LEFT, KEYBOARD_LEFT}, {KEY_RIGHT, KEYBOARD_RIGHT}, {KEY_OK, KEYBOARD_SELECT}};
+}
+
 void register_gui_kodi(void) {
-  register_gui(std::string(tabName_kodi), & create_tab_content_kodi, & notify_tab_before_delete_kodi);
+  register_gui(std::string(tabName_kodi), & create_tab_content_kodi, & notify_tab_before_delete_kodi,
+    & gui_setKeys_kodi, & key_repeatModes_kodi, & key_commands_short_kodi, & key_commands_long_kodi);
 }

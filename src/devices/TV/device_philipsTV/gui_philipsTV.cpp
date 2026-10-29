@@ -1,6 +1,7 @@
 #include <lvgl.h>
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
+#include "applicationInternal/scenes/sceneRegistry.h"
 #include "applicationInternal/commandHandler.h"
 #include "device_philipsTV.h"
 #include "gui_philipsTV.h"
@@ -58,6 +59,17 @@ void create_tab_content_philipsTV(lv_obj_t* tab) {
 void notify_tab_before_delete_philipsTV(void) {
 }
 
+// While this tab is shown, the arrow keys on the remote control this device
+static std::map<char, repeatModes> key_repeatModes_philipsTV;
+static std::map<char, uint16_t> key_commands_short_philipsTV;
+static std::map<char, uint16_t> key_commands_long_philipsTV;
+
+static void gui_setKeys_philipsTV(void) {
+  key_repeatModes_philipsTV = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
+  key_commands_short_philipsTV = {{KEY_UP, PHILIPS_UP}, {KEY_DOWN, PHILIPS_DOWN}, {KEY_LEFT, PHILIPS_LEFT}, {KEY_RIGHT, PHILIPS_RIGHT}, {KEY_OK, PHILIPS_SELECT}};
+}
+
 void register_gui_philipsTV(void) {
-  register_gui(std::string(tabName_philipsTV), & create_tab_content_philipsTV, & notify_tab_before_delete_philipsTV);
+  register_gui(std::string(tabName_philipsTV), & create_tab_content_philipsTV, & notify_tab_before_delete_philipsTV,
+    & gui_setKeys_philipsTV, & key_repeatModes_philipsTV, & key_commands_short_philipsTV, & key_commands_long_philipsTV);
 }
