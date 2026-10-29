@@ -20,6 +20,10 @@ uint16_t GUI_PREV;
 std::string scene_gui_prev = "GUI_prev";
 uint16_t GUI_NEXT;
 std::string scene_gui_next = "GUI_next";
+uint16_t GUI_FIRST;
+std::string scene_gui_first = "GUI_first";
+uint16_t GUI_LAST;
+std::string scene_gui_last = "GUI_last";
 
 std::map<char, repeatModes> key_repeatModes_default;
 std::map<char, uint16_t> key_commands_short_default;
@@ -55,7 +59,7 @@ void register_scene_defaultKeys(void) {
     {KEY_BACK,  SCENE_SELECTION  },                                                                        /*{KEY_SRC,   COMMAND_UNKNOWN  },*/
     {KEY_VOLUP, PHILIPS_VOL_UP   },                      {KEY_MUTE,  PHILIPS_MUTE     },                  /*{KEY_CHUP,  COMMAND_UNKNOWN  },*/
     {KEY_VOLDO, PHILIPS_VOL_DOWN },                      {KEY_REC,   SCENE_BACK_TO_PREVIOUS_GUI_LIST  },   /*{KEY_CHDOW, COMMAND_UNKNOWN  },*/
-    {KEY_RED,   GUI_PREV         },                                                                          {KEY_BLUE,  GUI_NEXT         },
+    {KEY_RED,   GUI_FIRST        },    {KEY_GREEN, GUI_PREV         },    {KEY_YELLO, GUI_NEXT         },    {KEY_BLUE,  GUI_LAST         },
   };
 
   key_commands_long_default = {
@@ -66,5 +70,7 @@ void register_scene_defaultKeys(void) {
   register_command(&SCENE_BACK_TO_PREVIOUS_GUI_LIST, makeCommandData(SCENE, {scene_back_to_previous_gui_list}));
   register_command(&GUI_PREV                       , makeCommandData(SCENE, {scene_gui_prev}));
   register_command(&GUI_NEXT                       , makeCommandData(SCENE, {scene_gui_next}));
+  register_command(&GUI_FIRST                      , makeCommandData(SCENE, {scene_gui_first}));
+  register_command(&GUI_LAST                       , makeCommandData(SCENE, {scene_gui_last}));
 
 }

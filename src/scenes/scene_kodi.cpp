@@ -28,7 +28,6 @@ void scene_setKeys_kodi() {
                                                                                                              {KEY_SRC,   SHORT            },
     {KEY_VOLUP, SHORT_REPEATED   },                      {KEY_MUTE,  SHORT            },                     {KEY_CHUP,  SHORT            },
     {KEY_VOLDO, SHORT_REPEATED   },                                                                          {KEY_CHDOW, SHORT            },
-                                       {KEY_GREEN, SHORT            },    {KEY_YELLO, SHORT            },
   };
 
   // Back is on Stop (long press: stop playback), Info (long press: player controls), Conf is the context menu, Src is Home
@@ -41,7 +40,6 @@ void scene_setKeys_kodi() {
                                                                                                              {KEY_SRC,   KEYBOARD_HOME    },
     {KEY_VOLUP, KEYBOARD_VOLUME_INCREMENT},              {KEY_MUTE,  KEYBOARD_MUTE    },                     {KEY_CHUP,  KEYBOARD_SCAN_NEXT_TRACK},
     {KEY_VOLDO, KEYBOARD_VOLUME_DECREMENT},                                                                  {KEY_CHDOW, KEYBOARD_SCAN_PREVIOUS_TRACK},
-                                       {KEY_GREEN, KODI_SUBTITLES   },    {KEY_YELLO, KODI_SUBTITLE_NEXT},
   };
 
   key_commands_long_kodi = {

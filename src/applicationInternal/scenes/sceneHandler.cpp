@@ -68,6 +68,23 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
     return;
   }
 
+  // --- jump to the first or last gui in the currently active list of guis -------------------------------------------
+  if ((scene_name == scene_gui_first) || (scene_name == scene_gui_last)) {
+    if (isGuiNavigationDebounced()) {
+      return;
+    }
+    int target = 0;
+    if (scene_name == scene_gui_last) {
+      while (gui_memoryOptimizer_isTabIDInMemory(target + 1)) {
+        target++;
+      }
+    }
+    if (target != gui_memoryOptimizer_getActiveTabID()) {
+      setActiveTab(target, LV_ANIM_ON, true);
+    }
+    return;
+  }
+
   // --- do not switch scene. Switch to the other gui list ------------------------------------------------------------
   if (scene_name == scene_back_to_previous_gui_list) {
     

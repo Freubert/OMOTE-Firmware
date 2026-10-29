@@ -84,7 +84,6 @@ static void gui_setKeys_teufelSConcept(void) {
     {KEY_REWI, TEUFEL_BASS_PLUS}, {KEY_FORW, TEUFEL_TREBLE_PLUS},
     {KEY_PLAY, TEUFEL_SUB_PLUS}, {KEY_STOP, TEUFEL_SUB_MINUS},
     {KEY_INFO, TEUFEL_INPUT_AUX}, {KEY_CONF, TEUFEL_INPUT_VCR},
-    {KEY_GREEN, TEUFEL_INPUT_OPT}, {KEY_YELLO, TEUFEL_INPUT_COAX},
   };
   for (const auto& entry : key_commands_short_teufelSConcept) {
     bool repeated = (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO) || (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT);
