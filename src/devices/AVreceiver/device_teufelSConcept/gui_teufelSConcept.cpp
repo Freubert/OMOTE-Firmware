@@ -89,6 +89,8 @@ static void gui_setKeys_teufelSConcept(void) {
     bool repeated = (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO) || (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT);
     key_repeatModes_teufelSConcept[entry.first] = repeated ? SHORT_REPEATED : SHORT;
   }
+  key_commands_long_teufelSConcept = {{KEY_STOP, TEUFEL_POWER}};
+  key_repeatModes_teufelSConcept[KEY_STOP] = SHORTorLONG;
 }
 
 void register_gui_teufelSConcept(void) {

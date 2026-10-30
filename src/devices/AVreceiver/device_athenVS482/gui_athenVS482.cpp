@@ -63,8 +63,9 @@ static std::map<char, uint16_t> key_commands_short_athenVS482;
 static std::map<char, uint16_t> key_commands_long_athenVS482;
 
 static void gui_setKeys_athenVS482(void) {
-  key_repeatModes_athenVS482 = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
+  key_repeatModes_athenVS482 = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}, {KEY_STOP, SHORTorLONG}};
   key_commands_short_athenVS482 = {{KEY_UP, ATHEN_UP}, {KEY_DOWN, ATHEN_DOWN}, {KEY_LEFT, ATHEN_LEFT}, {KEY_RIGHT, ATHEN_RIGHT}, {KEY_OK, ATHEN_SETUP}};
+  key_commands_long_athenVS482 = {{KEY_STOP, ATHEN_POWER_OFF}};
 }
 
 void register_gui_athenVS482(void) {

@@ -19,7 +19,7 @@ std::map<char, uint16_t> key_commands_long_TV;
 
 void scene_setKeys_TV() {
   key_repeatModes_TV = {
-    {KEY_STOP,  SHORT            },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORTorLONG      },    {KEY_FORW,  SHORT            },
+    {KEY_STOP,  SHORTorLONG      },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORTorLONG      },    {KEY_FORW,  SHORT            },
     {KEY_BACK,  SHORTorLONG      },    {KEY_REC,   SHORT            },    {KEY_CONF,  SHORTorLONG      },                                                                          {KEY_INFO,  SHORTorLONG      },
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
@@ -42,6 +42,7 @@ void scene_setKeys_TV() {
 
   };
   key_commands_long_TV = {
+    {KEY_STOP,  PHILIPS_POWER_TOGGLE },
     {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_CONF,  PHILIPS_POWER_TOGGLE },
   };
 

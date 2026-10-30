@@ -54,8 +54,9 @@ static std::map<char, uint16_t> key_commands_short_epsonProjector;
 static std::map<char, uint16_t> key_commands_long_epsonProjector;
 
 static void gui_setKeys_epsonProjector(void) {
-  key_repeatModes_epsonProjector = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}};
+  key_repeatModes_epsonProjector = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}, {KEY_STOP, SHORTorLONG}};
   key_commands_short_epsonProjector = {{KEY_UP, EPSON_UP}, {KEY_DOWN, EPSON_DOWN}, {KEY_LEFT, EPSON_LEFT}, {KEY_RIGHT, EPSON_RIGHT}, {KEY_OK, EPSON_SELECT}};
+  key_commands_long_epsonProjector = {{KEY_STOP, EPSON_POWER_TOGGLE}};
 }
 
 void register_gui_epsonProjector(void) {

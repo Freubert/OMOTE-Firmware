@@ -23,7 +23,7 @@ t_gui_list scene_projector_gui_list = {tabName_numpad};
 // Epson projector on the navigation/volume keys, Athen HDMI switch inputs on the media keys.
 void scene_setKeys_projector() {
   key_repeatModes_projector = {
-    {KEY_STOP,  SHORT            },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORT            },    {KEY_FORW,  SHORT            },
+    {KEY_STOP,  SHORTorLONG      },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORT            },    {KEY_FORW,  SHORT            },
     {KEY_CONF,  SHORT            },                                                                          {KEY_INFO,  SHORT            },
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
@@ -45,6 +45,7 @@ void scene_setKeys_projector() {
   };
 
   key_commands_long_projector = {
+    {KEY_STOP,  EPSON_POWER_TOGGLE },
   };
 }
 
