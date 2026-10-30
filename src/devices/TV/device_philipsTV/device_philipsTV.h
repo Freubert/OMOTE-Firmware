@@ -41,6 +41,7 @@ extern uint16_t PHILIPS_INPUT_HDMI_3;
 extern uint16_t PHILIPS_STOP;
 extern uint16_t PHILIPS_HOME;
 extern uint16_t PHILIPS_INFO;
+extern uint16_t PHILIPS_SUBTITLE;
 extern uint16_t PHILIPS_SETTINGS;
 extern uint16_t PHILIPS_BLUE;
 extern uint16_t PHILIPS_YELLOW;

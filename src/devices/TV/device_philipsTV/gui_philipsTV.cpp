@@ -13,7 +13,6 @@ struct ButtonDef {
 
 static const ButtonDef buttons[] = {
   {"Power", &PHILIPS_POWER_TOGGLE},
-  {"Power On", &PHILIPS_POWER_ON},
   {"TV", &PHILIPS_INPUT_TV},
   {"HDMI 1", &PHILIPS_INPUT_HDMI_1},
   {"HDMI 2", &PHILIPS_INPUT_HDMI_2},
@@ -21,11 +20,13 @@ static const ButtonDef buttons[] = {
   {"HDMI Side", &PHILIPS_INPUT_SIDE},
   {"EXT", &PHILIPS_INPUT_EXT},
   {"Info", &PHILIPS_INFO},
+  {"Subtitle", &PHILIPS_SUBTITLE},
   {"Green", &PHILIPS_GREEN},
   {"Yellow", &PHILIPS_YELLOW},
   {"Blue", &PHILIPS_BLUE},
-  {"Settings", &PHILIPS_SETTINGS},
+  {"Options", &PHILIPS_OPTIONS},
   {"Exit", &PHILIPS_EXIT},
+  {"Power On", &PHILIPS_POWER_ON},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {
@@ -69,7 +70,7 @@ static void gui_setKeys_philipsTV(void) {
     {KEY_SRC, PHILIPS_SOURCES}, {KEY_CHUP, PHILIPS_CHANNEL_UP}, {KEY_CHDOW, PHILIPS_CHANNEL_DOWN},
     {KEY_VOLUP, PHILIPS_VOL_UP}, {KEY_VOLDO, PHILIPS_VOL_DOWN}, {KEY_MUTE, PHILIPS_MUTE},
   };
-  key_commands_long_philipsTV = {{KEY_PLAY, PHILIPS_PLAY}, {KEY_SRC, PHILIPS_OPTIONS}, {KEY_INFO, PHILIPS_INFO}, {KEY_CONF, PHILIPS_POWER_TOGGLE}};
+  key_commands_long_philipsTV = {{KEY_PLAY, PHILIPS_PLAY}, {KEY_INFO, PHILIPS_INFO}, {KEY_CONF, PHILIPS_POWER_TOGGLE}};
   for (const auto& entry : key_commands_short_philipsTV) {
     bool repeated = (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT) || (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO);
     key_repeatModes_philipsTV[entry.first] = repeated ? SHORT_REPEATED : SHORT;
@@ -78,7 +79,7 @@ static void gui_setKeys_philipsTV(void) {
   key_repeatModes_philipsTV[KEY_BACK] = SHORTorLONG;
   key_repeatModes_philipsTV[KEY_CONF] = SHORTorLONG;
   key_repeatModes_philipsTV[KEY_PLAY] = SHORTorLONG;
-  key_repeatModes_philipsTV[KEY_SRC] = SHORTorLONG;
+
 }
 
 void register_gui_philipsTV(void) {

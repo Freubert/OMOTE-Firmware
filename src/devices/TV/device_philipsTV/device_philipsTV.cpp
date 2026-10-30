@@ -43,6 +43,7 @@ uint16_t PHILIPS_INPUT_HDMI_3;
 uint16_t PHILIPS_STOP;
 uint16_t PHILIPS_HOME;
 uint16_t PHILIPS_INFO;
+uint16_t PHILIPS_SUBTITLE;
 uint16_t PHILIPS_SETTINGS;
 uint16_t PHILIPS_BLUE;
 uint16_t PHILIPS_YELLOW;
@@ -88,6 +89,7 @@ void register_device_philipsTV() {
   register_command(&PHILIPS_YELLOW, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1006F:20:0"}));
   register_command(&PHILIPS_BLUE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10070:20:0"}));
   register_command(&PHILIPS_SETTINGS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x100BF:20:0"}));
+  register_command(&PHILIPS_SUBTITLE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1004B:20:0"}));
   register_command(&PHILIPS_INFO, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1000F:20:0"}));
   register_command(&PHILIPS_HOME, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10054:20:0"}));
   register_command(&PHILIPS_OPTIONS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10040:20:0"}));

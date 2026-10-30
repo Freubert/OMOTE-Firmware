@@ -29,7 +29,7 @@ void scene_setKeys_directDeviceControl() {
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
                                                          {KEY_DOWN,  SHORT_REPEATED   },
-                                                                                                             {KEY_SRC,   SHORTorLONG      },
+                                                                                                             {KEY_SRC,   SHORT            },
     {KEY_VOLUP, SHORT_REPEATED   },                      {KEY_MUTE,  SHORT            },                     {KEY_CHUP,  SHORT            },
     {KEY_VOLDO, SHORT_REPEATED   },                      {KEY_CHDOW, SHORT            },
                                                                                                              {KEY_OFF,   SHORT            },
@@ -48,7 +48,7 @@ void scene_setKeys_directDeviceControl() {
   };
 
   key_commands_long_directDeviceControl = {
-    {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_SRC,   PHILIPS_OPTIONS  },    {KEY_CONF,  PHILIPS_POWER_TOGGLE },
+    {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_CONF,  PHILIPS_POWER_TOGGLE },
   };
 }
 
