@@ -116,11 +116,12 @@ int main(int argc, char *argv[]) {
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_philipsTV, tabName_philipsScan, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector, tabName_athenVS482, tabName_kodi, tabName_kodiMore
+    {tabName_philipsTV, tabName_philipsScan, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector
+      , tabName_athenVS482, tabName_kodi, tabName_kodiMore, tabName_sceneSelection
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
-    , tabName_sceneSelection, tabName_settings
+    , tabName_settings
     };
   #endif
 

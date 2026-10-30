@@ -2,7 +2,7 @@
 
 #include <lvgl.h>
 
-const char * const tabName_settings = "Settings";
+const char * const tabName_settings = "Einstellungen";
 void register_gui_settings(void);
 
 // accessed by "guiStatusUpdate.cpp"
