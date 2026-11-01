@@ -6,7 +6,6 @@
 #include "applicationInternal/hardware/hardwarePresenter.h"
 #include "applicationInternal/commandHandler.h"
 #include "applicationInternal/omote_log.h"
-#include "guis/gui_sceneSelection.h"
 #include "scenes/scene__default.h"
 
 void setLabelActiveScene() {
@@ -35,10 +34,10 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
   auto current = commandData.commandPayloads.begin();
   std::string scene_name = *current;
 
-  // --- do not switch scene, but show scene selection gui. From that on, we are in the main_gui_list. ----------------
+  // --- do not switch scene, but go to the first gui of the main_gui_list. ----------------
   if (scene_name == scene_name_selection) {
-    omote_log_d("scene: will show scene selection gui\r\n");
-    showSpecificGUI(MAIN_GUI_LIST, tabName_sceneSelection);
+    omote_log_d("scene: will show first gui\r\n");
+    showSpecificGUI(MAIN_GUI_LIST, main_gui_list.at(0));
     return;
   }
 
@@ -68,14 +67,16 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
     return;
   }
 
-  // --- jump to the first or last gui in the currently active list of guis -------------------------------------------
+  // --- jump 5 guis back or forward (clamped to the first/last) in the currently active list of guis -------------------------------------------
   if ((scene_name == scene_gui_first) || (scene_name == scene_gui_last)) {
     if (isGuiNavigationDebounced()) {
       return;
     }
     // Only three tabs are kept in memory, so the target tab has to be created by its index in the gui list
     int current = gui_memoryOptimizer_getActiveGuiListIndex();
-    int target = (scene_name == scene_gui_last) ? (int)get_gui_list_active_withFallback()->size() - 1 : 0;
+    int lastIndex = (int)get_gui_list_active_withFallback()->size() - 1;
+    int target = current + ((scene_name == scene_gui_last) ? 5 : -5);
+    target = (target < 0) ? 0 : ((target > lastIndex) ? lastIndex : target);
     if ((current >= 0) && (target != current)) {
       guis_doTabCreationForSpecificGUI(gui_memoryOptimizer_getActiveGUIlist(), target);
     }

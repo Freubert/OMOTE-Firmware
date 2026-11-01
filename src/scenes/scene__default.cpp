@@ -8,9 +8,6 @@
 #include "scene__default.h"
 #include "scenes/scene_allOff.h"
 #include "scenes/scene_TV.h"
-#include "scenes/scene_directDeviceControl.h"
-#include "scenes/scene_projector.h"
-#include "scenes/scene_kodi.h"
 
 uint16_t SCENE_SELECTION;
 std::string scene_name_selection = "sceneSelection";
