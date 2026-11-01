@@ -26,14 +26,11 @@
 // register gui and keys
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
-#include "guis/gui_sceneSelection.h"
 #include "guis/gui_settings.h"
-#include "guis/gui_numpad.h"
 #include "guis/gui_BLEpairing.h"
 #include "devices/TV/device_philipsTV/gui_philipsTV.h"
 #include "devices/AVreceiver/device_teufelSConcept/gui_teufelSConcept.h"
 #include "devices/AVreceiver/device_teufelSConcept/gui_teufelScan.h"
-#include "devices/TV/device_philipsTV/gui_philipsScan.h"
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
 #include "devices/mediaPlayer/device_kodi/gui_kodi.h"
@@ -43,10 +40,6 @@
 // register scenes
 #include "scenes/scene__default.h"
 #include "scenes/scene_allOff.h"
-#include "scenes/scene_TV.h"
-#include "scenes/scene_directDeviceControl.h"
-#include "scenes/scene_projector.h"
-#include "scenes/scene_kodi.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 
 #if defined(ARDUINO)
@@ -102,7 +95,6 @@ int main(int argc, char *argv[]) {
   register_gui_philipsTV();
   register_gui_teufelSConcept();
   register_gui_teufelScan();
-  register_gui_philipsScan();
   register_gui_epsonProjector();
   register_gui_athenVS482();
   register_gui_kodi();
@@ -110,14 +102,12 @@ int main(int argc, char *argv[]) {
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
-  register_gui_numpad();
-  register_gui_sceneSelection();
   register_gui_settings();
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_philipsTV, tabName_philipsScan, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector
-      , tabName_athenVS482, tabName_kodi, tabName_kodiMore, tabName_sceneSelection
+    {tabName_philipsTV, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector
+      , tabName_athenVS482, tabName_kodi, tabName_kodiMore
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
@@ -127,13 +117,7 @@ int main(int argc, char *argv[]) {
 
   // register the scenes and their key_commands_*
   register_scene_defaultKeys();
-  register_scene_TV();
   register_scene_allOff();
-  register_scene_directDeviceControl();
-  register_scene_projector();
-  register_scene_kodi();
-  // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_TV, scene_name_projector, scene_name_kodi, scene_name_directDeviceControl});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered
@@ -190,10 +174,6 @@ void loop(unsigned long *pIMUTaskTimer, unsigned long *pUpdateStatusTimer) {
   #endif
   // keypad handling: get key states from hardware and process them
   keypad_loop();
-  // process IR receiver, if activated
-  //if (get_irReceiverEnabled()) {
-  //  infraredReceiver_loop();
-  //}
   // update LVGL UI
   gui_loop();
   // call mqtt loop to receive mqtt messages, if you are subscribed to some topics

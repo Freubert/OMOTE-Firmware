@@ -43,6 +43,11 @@ uint16_t PHILIPS_INPUT_HDMI_3;
 uint16_t PHILIPS_STOP;
 uint16_t PHILIPS_HOME;
 uint16_t PHILIPS_INFO;
+uint16_t PHILIPS_RECORD;
+uint16_t PHILIPS_FORMAT;
+uint16_t PHILIPS_RED;
+uint16_t PHILIPS_ADJUST;
+uint16_t PHILIPS_AMBILIGHT;
 uint16_t PHILIPS_SUBTITLE;
 uint16_t PHILIPS_SETTINGS;
 uint16_t PHILIPS_BLUE;
@@ -74,7 +79,7 @@ void register_device_philipsTV() {
   register_command(&PHILIPS_INPUT_EXTERNAL, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC5), "0x38"}));
   // Source: LIRC Philips LCD_TV_DISCRETE (discrete power/HDMI, converted from LIRC to IRremoteESP8266 RC5X layout) and Flipper-IRDB Philips_14GX8510 (guide).
   register_command(&PHILIPS_POWER_ON, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC5), "0x3F"}));
-  register_command(&PHILIPS_POWER_OFF, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC5), "0xC"}));
+  register_command(&PHILIPS_POWER_OFF, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1003D:20:0"}));
   // Modern Philips TVs: RC6, address 0 (toggle bit fixed to 1).
   register_command(&PHILIPS_LEFT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1005A:20:0"}));
   register_command(&PHILIPS_RIGHT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1005B:20:0"}));
@@ -90,6 +95,11 @@ void register_device_philipsTV() {
   register_command(&PHILIPS_BLUE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10070:20:0"}));
   register_command(&PHILIPS_SETTINGS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x100BF:20:0"}));
   register_command(&PHILIPS_SUBTITLE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1004B:20:0"}));
+  register_command(&PHILIPS_AMBILIGHT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1008F:20:0"}));
+  register_command(&PHILIPS_ADJUST, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10090:20:0"}));
+  register_command(&PHILIPS_RED, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x100BE:20:0"}));
+  register_command(&PHILIPS_FORMAT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x100F5:20:0"}));
+  register_command(&PHILIPS_RECORD, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10037:20:0"}));
   register_command(&PHILIPS_INFO, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x1000F:20:0"}));
   register_command(&PHILIPS_HOME, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10054:20:0"}));
   register_command(&PHILIPS_OPTIONS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_RC6), "0x10040:20:0"}));

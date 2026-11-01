@@ -20,13 +20,14 @@ std::map<char, uint16_t> key_commands_long_TV;
 void scene_setKeys_TV() {
   key_repeatModes_TV = {
     {KEY_STOP,  SHORTorLONG      },    {KEY_REWI,  SHORT            },    {KEY_PLAY,  SHORTorLONG      },    {KEY_FORW,  SHORT            },
-    {KEY_BACK,  SHORTorLONG      },    {KEY_REC,   SHORT            },    {KEY_CONF,  SHORTorLONG      },                                                                          {KEY_INFO,  SHORTorLONG      },
+    {KEY_BACK,  SHORTorLONG      },    {KEY_REC,   SHORT            },    {KEY_CONF,  SHORT            },                                                                          {KEY_INFO,  SHORTorLONG      },
                                                          {KEY_UP,    SHORT_REPEATED   },
                       {KEY_LEFT,  SHORT_REPEATED   },    {KEY_OK,    SHORT            },    {KEY_RIGHT, SHORT_REPEATED  },
                                                          {KEY_DOWN,  SHORT_REPEATED   },
                                                                                                              {KEY_SRC,   SHORT            },
     {KEY_VOLUP, SHORT_REPEATED   },                      {KEY_MUTE,  SHORT            },                     {KEY_CHUP,  SHORT            },
     {KEY_VOLDO, SHORT_REPEATED   },                      {KEY_CHDOW, SHORT            },
+    {KEY_RED, SHORTorLONG}, {KEY_GREEN, SHORTorLONG}, {KEY_YELLO, SHORTorLONG}, {KEY_BLUE, SHORTorLONG},
 
   };
 
@@ -38,12 +39,15 @@ void scene_setKeys_TV() {
                                                          {KEY_DOWN,  PHILIPS_DOWN     },
                                                                                                              {KEY_SRC,   PHILIPS_SOURCES  },
     {KEY_VOLUP, PHILIPS_VOL_UP   },                      {KEY_MUTE,  PHILIPS_MUTE     },                     {KEY_CHUP,  PHILIPS_CHANNEL_UP},
-    {KEY_VOLDO, PHILIPS_VOL_DOWN },                      {KEY_CHDOW, PHILIPS_CHANNEL_DOWN},
-
+    {KEY_VOLDO, PHILIPS_VOL_DOWN },                  
   };
   key_commands_long_TV = {
+    {KEY_RED, PHILIPS_RED},
+    {KEY_GREEN, PHILIPS_GREEN},
+    {KEY_YELLO, PHILIPS_YELLOW},
+    {KEY_BLUE, PHILIPS_BLUE},
     {KEY_STOP,  PHILIPS_POWER_TOGGLE },
-    {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },    {KEY_CONF,  PHILIPS_POWER_TOGGLE },
+    {KEY_INFO,  PHILIPS_INFO     },    {KEY_PLAY,  PHILIPS_PLAY     },
   };
 
 }
