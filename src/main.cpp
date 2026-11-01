@@ -98,7 +98,6 @@ int main(int argc, char *argv[]) {
   register_gui_epsonProjector();
   register_gui_athenVS482();
   register_gui_kodi();
-  register_gui_kodiMore();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
@@ -107,7 +106,7 @@ int main(int argc, char *argv[]) {
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
     {tabName_philipsTV, tabName_teufelSConcept, tabName_teufelScan, tabName_epsonProjector
-      , tabName_athenVS482, tabName_kodi, tabName_kodiMore
+      , tabName_athenVS482, tabName_kodi
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
