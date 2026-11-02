@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <string>
 #include "applicationInternal/commandHandler.h"
 #include "applicationInternal/hardware/hardwarePresenter.h"
@@ -6,10 +7,12 @@
 uint16_t TEUFEL_POWER;
 uint16_t TEUFEL_VOL_PLUS;
 uint16_t TEUFEL_VOL_MINUS;
-uint16_t TEUFEL_INPUT_VCR;
 uint16_t TEUFEL_INPUT_OPT;
+uint16_t TEUFEL_INPUT_PC;
+uint16_t TEUFEL_INPUT_VCR;
 uint16_t TEUFEL_INPUT_AUX;
 uint16_t TEUFEL_INPUT_COAX;
+uint16_t TEUFEL_INPUT_TUNER;
 uint16_t TEUFEL_CENTER_PLUS;
 uint16_t TEUFEL_CENTER_MINUS;
 uint16_t TEUFEL_BALANCE_LEFT;
@@ -19,29 +22,82 @@ uint16_t TEUFEL_BASS_PLUS;
 uint16_t TEUFEL_TREBLE_PLUS;
 uint16_t TEUFEL_SUB_PLUS;
 uint16_t TEUFEL_SUB_MINUS;
-uint16_t TEUFEL_TRY[TEUFEL_TRY_COUNT];
-
-const char* const TEUFEL_TRY_LABELS[TEUFEL_TRY_COUNT] = {"Try 3", "Try 4", "Try 8", "Try 9", "Try 11", "Try Ch+", "Try Ch-"};
-static const char* const tryCodes[TEUFEL_TRY_COUNT] = {"0x04FBF20D", "0x04FB708F", "0x04FBB04F", "0x04FB32CD", "0x04FBD22D", "0x04FB48B7", "0x04FB6897"};
+uint16_t TEUFEL_RESET;
+uint16_t TEUFEL_REAR_LEFT_PLUS;
+uint16_t TEUFEL_REAR_LEFT_MINUS;
+uint16_t TEUFEL_REAR_RIGHT_PLUS;
+uint16_t TEUFEL_REAR_RIGHT_MINUS;
+uint16_t TEUFEL_TEST;
+uint16_t TEUFEL_BASS_MINUS;
+uint16_t TEUFEL_TREBLE_MINUS;
+uint16_t TEUFEL_C_DELAY_PLUS;
+uint16_t TEUFEL_C_DELAY_MINUS;
+uint16_t TEUFEL_S_DELAY_PLUS;
+uint16_t TEUFEL_S_DELAY_MINUS;
+uint16_t TEUFEL_NUM_1;
+uint16_t TEUFEL_NUM_0;
+uint16_t TEUFEL_NIGHT_MODE;
+uint16_t TEUFEL_NUM_2;
+uint16_t TEUFEL_NUM_3;
+uint16_t TEUFEL_NUM_4;
+uint16_t TEUFEL_NUM_5;
+uint16_t TEUFEL_NUM_6;
+uint16_t TEUFEL_NUM_7;
+uint16_t TEUFEL_NUM_8;
+uint16_t TEUFEL_NUM_9;
+uint16_t TEUFEL_SCAN_PLUS;
+uint16_t TEUFEL_SCAN_MINUS;
+uint16_t TEUFEL_MUTE;
+uint16_t TEUFEL_LISTEN_MODE;
+uint16_t TEUFEL_CHANNEL_PLUS;
+uint16_t TEUFEL_CHANNEL_MINUS;
 
 void register_device_teufelSConcept() {
-  for (int i = 0; i < TEUFEL_TRY_COUNT; i++) {
-    register_command(&TEUFEL_TRY[i], makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), tryCodes[i]}));
-  }
-  register_command(&TEUFEL_POWER, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB50AF"}));
-  register_command(&TEUFEL_VOL_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBAA55"}));
-  register_command(&TEUFEL_VOL_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB18E7"}));
-  register_command(&TEUFEL_INPUT_VCR, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB728D"}));
-  register_command(&TEUFEL_INPUT_OPT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB12ED"}));
-  register_command(&TEUFEL_INPUT_AUX, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBF00F"}));
-  register_command(&TEUFEL_INPUT_COAX, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB52AD"}));
-  register_command(&TEUFEL_CENTER_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB08F7"}));
-  register_command(&TEUFEL_CENTER_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB8877"}));
-  register_command(&TEUFEL_BALANCE_LEFT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBA857"}));
-  register_command(&TEUFEL_BALANCE_RIGHT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB9A65"}));
-  register_command(&TEUFEL_BALANCE_CENTER, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB28D7"}));
-  register_command(&TEUFEL_BASS_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBA05F"}));
-  register_command(&TEUFEL_TREBLE_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBEA15"}));
-  register_command(&TEUFEL_SUB_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBCA35"}));
-  register_command(&TEUFEL_SUB_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB8A75"}));
+  register_command(&TEUFEL_POWER, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB50AF:32:1"}));
+  register_command(&TEUFEL_VOL_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBAA55:32:1"}));
+  register_command(&TEUFEL_VOL_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB18E7:32:1"}));
+  register_command(&TEUFEL_INPUT_OPT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB12ED:32:1"}));
+  register_command(&TEUFEL_INPUT_PC, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB32CD:32:1"}));
+  register_command(&TEUFEL_INPUT_AUX, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBF00F:32:1"}));
+  register_command(&TEUFEL_INPUT_COAX, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB52AD:32:1"}));
+  register_command(&TEUFEL_INPUT_TUNER, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB728D:32:1"}));
+  register_command(&TEUFEL_INPUT_VCR, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB708F:32:1"}));
+  register_command(&TEUFEL_CENTER_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB08F7:32:1"}));
+  register_command(&TEUFEL_CENTER_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB8877:32:1"}));
+  register_command(&TEUFEL_BALANCE_LEFT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBA857:32:1"}));
+  register_command(&TEUFEL_BALANCE_RIGHT, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB9A65:32:1"}));
+  register_command(&TEUFEL_BALANCE_CENTER, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB28D7:32:1"}));
+  register_command(&TEUFEL_BASS_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBA05F:32:1"}));
+  register_command(&TEUFEL_TREBLE_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBEA15:32:1"}));
+  register_command(&TEUFEL_SUB_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBCA35:32:1"}));
+  register_command(&TEUFEL_SUB_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB8A75:32:1"}));
+  register_command(&TEUFEL_RESET, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB30CF:32:1"}));
+  register_command(&TEUFEL_REAR_LEFT_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB38C7:32:1"}));
+  register_command(&TEUFEL_REAR_LEFT_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBB847:32:1"}));
+  register_command(&TEUFEL_REAR_RIGHT_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBFA05:32:1"}));
+  register_command(&TEUFEL_REAR_RIGHT_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBBA45:32:1"}));
+  register_command(&TEUFEL_TEST, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB10EF:32:1"}));
+  register_command(&TEUFEL_BASS_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB9867:32:1"}));
+  register_command(&TEUFEL_TREBLE_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBDA25:32:1"}));
+  register_command(&TEUFEL_C_DELAY_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBD22D:32:1"}));
+  register_command(&TEUFEL_C_DELAY_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB609F:32:1"}));
+  register_command(&TEUFEL_S_DELAY_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBF20D:32:1"}));
+  register_command(&TEUFEL_S_DELAY_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBB04F:32:1"}));
+  register_command(&TEUFEL_MUTE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBD02F:32:1"}));
+  register_command(&TEUFEL_LISTEN_MODE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBB24D:32:1"}));
+  register_command(&TEUFEL_NIGHT_MODE, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB906F:32:1"}));
+  register_command(&TEUFEL_CHANNEL_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB48B7:32:1"}));
+  register_command(&TEUFEL_CHANNEL_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB6897:32:1"}));
+  register_command(&TEUFEL_NUM_2, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB0AF5:32:1"}));
+  register_command(&TEUFEL_NUM_3, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB4AB5:32:1"}));
+  register_command(&TEUFEL_NUM_4, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBE817:32:1"}));
+  register_command(&TEUFEL_NUM_5, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBF807:32:1"}));
+  register_command(&TEUFEL_NUM_6, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB6A95:32:1"}));
+  register_command(&TEUFEL_NUM_7, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBD827:32:1"}));
+  register_command(&TEUFEL_NUM_8, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB1AE5:32:1"}));
+  register_command(&TEUFEL_NUM_9, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB5AA5:32:1"}));
+  register_command(&TEUFEL_SCAN_PLUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB58A7:32:1"}));
+  register_command(&TEUFEL_SCAN_MINUS, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB7887:32:1"}));
+  register_command(&TEUFEL_NUM_1, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FBC837:32:1"}));
+  register_command(&TEUFEL_NUM_0, makeCommandData(IR, {std::to_string(IR_PROTOCOL_NEC), "0x04FB7A85:32:1"}));
 }

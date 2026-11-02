@@ -13,21 +13,34 @@ struct ButtonDef {
 
 static const ButtonDef buttons[] = {
   {"Power", &TEUFEL_POWER},
-  {"Vol +", &TEUFEL_VOL_PLUS},
-  {"Vol -", &TEUFEL_VOL_MINUS},
-  {"Input VCR", &TEUFEL_INPUT_VCR},
-  {"Input OPT", &TEUFEL_INPUT_OPT},
-  {"Input AUX", &TEUFEL_INPUT_AUX},
-  {"Input COAX", &TEUFEL_INPUT_COAX},
-  {"Center +", &TEUFEL_CENTER_PLUS},
-  {"Center -", &TEUFEL_CENTER_MINUS},
-  {"Balance left", &TEUFEL_BALANCE_LEFT},
-  {"Balance right", &TEUFEL_BALANCE_RIGHT},
-  {"Balance center", &TEUFEL_BALANCE_CENTER},
-  {"Bass +", &TEUFEL_BASS_PLUS},
-  {"Treble +", &TEUFEL_TREBLE_PLUS},
-  {"Subwoofer +", &TEUFEL_SUB_PLUS},
-  {"Subwoofer -", &TEUFEL_SUB_MINUS},
+  {"OPT", &TEUFEL_INPUT_OPT},
+  {"PC", &TEUFEL_INPUT_PC},
+  {"AUX", &TEUFEL_INPUT_AUX},
+  {"Radio", &TEUFEL_INPUT_TUNER},
+  {"VCR", &TEUFEL_INPUT_VCR},
+  {"COAX", &TEUFEL_INPUT_COAX},
+  {"Listen mode", &TEUFEL_LISTEN_MODE},
+  {"Night mode", &TEUFEL_NIGHT_MODE},
+  {"C Delay +", &TEUFEL_C_DELAY_PLUS},
+  {"C Delay -", &TEUFEL_C_DELAY_MINUS},
+  {"S Delay +", &TEUFEL_S_DELAY_PLUS},
+  {"S Delay -", &TEUFEL_S_DELAY_MINUS},
+  {"Channel +", &TEUFEL_CHANNEL_PLUS},
+  {"Channel -", &TEUFEL_CHANNEL_MINUS},
+  {"Scan +", &TEUFEL_SCAN_PLUS},
+  {"Scan -", &TEUFEL_SCAN_MINUS},
+  {"1", &TEUFEL_NUM_1},
+  {"2", &TEUFEL_NUM_2},
+  {"3", &TEUFEL_NUM_3},
+  {"4", &TEUFEL_NUM_4},
+  {"5", &TEUFEL_NUM_5},
+  {"6", &TEUFEL_NUM_6},
+  {"7", &TEUFEL_NUM_7},
+  {"8", &TEUFEL_NUM_8},
+  {"9", &TEUFEL_NUM_9},
+  {"0 / 10+", &TEUFEL_NUM_0},
+  {"Test", &TEUFEL_TEST},
+  {"Reset", &TEUFEL_RESET},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {
@@ -53,18 +66,6 @@ void create_tab_content_teufelSConcept(lv_obj_t* tab) {
     lv_label_set_text(label, def.label);
     lv_obj_center(label);
   }
-
-  // Unlabeled Harmony codes: press each and note what the Teufel does.
-  for (int i = 0; i < TEUFEL_TRY_COUNT; i++) {
-    lv_obj_t* button = lv_btn_create(tab);
-    lv_obj_set_size(button, LV_PCT(100), 40);
-    lv_obj_set_style_radius(button, 10, LV_PART_MAIN);
-    lv_obj_set_style_bg_color(button, color_primary, LV_PART_MAIN);
-    lv_obj_add_event_cb(button, button_clicked_event_cb, LV_EVENT_CLICKED, (void*)&TEUFEL_TRY[i]);
-    lv_obj_t* label = lv_label_create(button);
-    lv_label_set_text(label, TEUFEL_TRY_LABELS[i]);
-    lv_obj_center(label);
-  }
 }
 
 void notify_tab_before_delete_teufelSConcept(void) {
@@ -77,20 +78,22 @@ static std::map<char, uint16_t> key_commands_long_teufelSConcept;
 
 static void gui_setKeys_teufelSConcept(void) {
   key_commands_short_teufelSConcept = {
-    {KEY_SRC, TEUFEL_POWER},
+    {KEY_MUTE, TEUFEL_MUTE},
     {KEY_VOLUP, TEUFEL_VOL_PLUS}, {KEY_VOLDO, TEUFEL_VOL_MINUS},
     {KEY_UP, TEUFEL_CENTER_PLUS}, {KEY_DOWN, TEUFEL_CENTER_MINUS},
     {KEY_LEFT, TEUFEL_BALANCE_LEFT}, {KEY_RIGHT, TEUFEL_BALANCE_RIGHT}, {KEY_OK, TEUFEL_BALANCE_CENTER},
-    {KEY_REWI, TEUFEL_BASS_PLUS}, {KEY_FORW, TEUFEL_TREBLE_PLUS},
-    {KEY_PLAY, TEUFEL_SUB_PLUS}, {KEY_STOP, TEUFEL_SUB_MINUS},
-    {KEY_INFO, TEUFEL_INPUT_AUX}, {KEY_CONF, TEUFEL_INPUT_VCR},
+    {KEY_REWI, TEUFEL_BASS_PLUS}, {KEY_STOP, TEUFEL_BASS_MINUS},
+    {KEY_PLAY, TEUFEL_TREBLE_MINUS}, {KEY_FORW, TEUFEL_TREBLE_PLUS},
+    {KEY_CHUP, TEUFEL_SUB_PLUS}, {KEY_CHDOW, TEUFEL_SUB_MINUS},
   };
   for (const auto& entry : key_commands_short_teufelSConcept) {
     bool repeated = (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO) || (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT);
     key_repeatModes_teufelSConcept[entry.first] = repeated ? SHORT_REPEATED : SHORT;
   }
-  key_commands_long_teufelSConcept = {{KEY_STOP, TEUFEL_POWER}};
-  key_repeatModes_teufelSConcept[KEY_STOP] = SHORTorLONG;
+  key_commands_long_teufelSConcept = {{KEY_STOP, TEUFEL_POWER},
+    {KEY_RED, TEUFEL_REAR_LEFT_MINUS}, {KEY_GREEN, TEUFEL_REAR_LEFT_PLUS},
+    {KEY_YELLO, TEUFEL_REAR_RIGHT_MINUS}, {KEY_BLUE, TEUFEL_REAR_RIGHT_PLUS}};
+  for (char key : {KEY_STOP, KEY_RED, KEY_GREEN, KEY_YELLO, KEY_BLUE}) key_repeatModes_teufelSConcept[key] = SHORTorLONG;
 }
 
 void register_gui_teufelSConcept(void) {
