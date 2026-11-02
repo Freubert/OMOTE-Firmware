@@ -14,19 +14,7 @@ struct ButtonDef {
 static const ButtonDef buttons[] = {
   {"Power On", &ATHEN_POWER_ON},
   {"Power Off", &ATHEN_POWER_OFF},
-  {"Port 1", &ATHEN_INPUT_HDMI_1},
-  {"Port 2", &ATHEN_INPUT_HDMI_2},
-  {"Port 3", &ATHEN_INPUT_HDMI_3},
-  {"Port 4", &ATHEN_INPUT_HDMI_4},
-  {"Up", &ATHEN_UP},
-  {"Down", &ATHEN_DOWN},
-  {"Left", &ATHEN_LEFT},
-  {"Right", &ATHEN_RIGHT},
-  {"Setup", &ATHEN_SETUP},
-  {"Menu", &ATHEN_MENU},
-  {"Info", &ATHEN_INFO},
   {"ARC", &ATHEN_ARC},
-  {"HDMI Mute", &ATHEN_HDMI_MUTE},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {
@@ -64,7 +52,9 @@ static std::map<char, uint16_t> key_commands_long_athenVS482;
 
 static void gui_setKeys_athenVS482(void) {
   key_repeatModes_athenVS482 = {{KEY_UP, SHORT_REPEATED}, {KEY_DOWN, SHORT_REPEATED}, {KEY_LEFT, SHORT_REPEATED}, {KEY_RIGHT, SHORT_REPEATED}, {KEY_OK, SHORT}, {KEY_STOP, SHORTorLONG}};
-  key_commands_short_athenVS482 = {{KEY_UP, ATHEN_UP}, {KEY_DOWN, ATHEN_DOWN}, {KEY_LEFT, ATHEN_LEFT}, {KEY_RIGHT, ATHEN_RIGHT}, {KEY_OK, ATHEN_SETUP}};
+  key_commands_short_athenVS482 = {{KEY_UP, ATHEN_UP}, {KEY_DOWN, ATHEN_DOWN}, {KEY_LEFT, ATHEN_LEFT}, {KEY_RIGHT, ATHEN_RIGHT}, {KEY_OK, ATHEN_SETUP},
+    {KEY_REC, ATHEN_INPUT_HDMI_1}, {KEY_REWI, ATHEN_INPUT_HDMI_2}, {KEY_PLAY, ATHEN_INPUT_HDMI_3}, {KEY_FORW, ATHEN_INPUT_HDMI_4}, {KEY_MUTE, ATHEN_HDMI_MUTE},
+    {KEY_CONF, ATHEN_MENU}, {KEY_INFO, ATHEN_INFO} };
   key_commands_long_athenVS482 = {{KEY_STOP, ATHEN_POWER_OFF}};
 }
 
