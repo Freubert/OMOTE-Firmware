@@ -18,10 +18,11 @@ byte backlightBrightness = 255;
 void update_backlightBrightness_HAL(void) {
   // A variable declared static inside a function is visible only inside that function, exists only once (not created/destroyed for each call) and is permanent. It is in a sense a private global variable.
   static int fadeInTimer = millis(); // fadeInTimer = time after setup
-  if (millis() < fadeInTimer + backlightBrightness) {
+  const int fadeInDuration = 80;
+  if (millis() < fadeInTimer + fadeInDuration) {
     // after boot or wakeup, fade in backlight brightness
-    // fade in lasts for <backlightBrightness> ms
-    ledcWrite(LEDC_CHANNEL_5, millis() - fadeInTimer);
+    // fade in lasts for <fadeInDuration> ms, short so the display feels instantly awake
+    ledcWrite(LEDC_CHANNEL_5, (millis() - fadeInTimer) * backlightBrightness / fadeInDuration);
   } else {
     if (millis() - get_lastActivityTimestamp() > get_sleepTimeout_HAL() - 2000) {
       // less than 2000 ms until standby

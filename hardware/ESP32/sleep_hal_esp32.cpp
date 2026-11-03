@@ -46,9 +46,9 @@ void setLastActivityTimestamp_HAL() {
 }
 
 void activityDetection() {
-  // if there is any motion, setLastActivityTimestamp_HAL() is called 
+  // if there is any motion, setLastActivityTimestamp_HAL() is called
   int motion = 0;
-  
+
   // A variable declared static inside a function is visible only inside that function, exists only once (not created/destroyed for each call) and is permanent. It is in a sense a private global variable.
   static int accXold;
   static int accYold;
@@ -65,7 +65,7 @@ void activityDetection() {
     setLastActivityTimestamp_HAL();
   }
 
-  // Store the current acceleration and time 
+  // Store the current acceleration and time
   accXold = accX;
   accYold = accY;
   accZold = accZ;
@@ -75,7 +75,7 @@ void configIMUInterruptsBeforeGoingToSleep()
 {
   uint8_t dataToWrite = 0;
 
-  //LIS3DH_INT1_CFG   
+  //LIS3DH_INT1_CFG
   //dataToWrite |= 0x80;//AOI, 0 = OR 1 = AND
   //dataToWrite |= 0x40;//6D, 0 = interrupt source, 1 = 6 direction source
   //Set these to enable individual axes of generation source (or direction)
@@ -91,20 +91,20 @@ void configIMUInterruptsBeforeGoingToSleep()
   } else {
     IMU.writeRegister(LIS3DH_INT1_CFG, 0b00000000);
   }
-  
-  //LIS3DH_INT1_THS   
+
+  //LIS3DH_INT1_THS
   dataToWrite = 0;
   //Provide 7 bit value, 0x7F always equals max range by accelRange setting
-  dataToWrite |= 0x45;
+  dataToWrite |= 0x60;
   IMU.writeRegister(LIS3DH_INT1_THS, dataToWrite);
-  
-  //LIS3DH_INT1_DURATION  
+
+  //LIS3DH_INT1_DURATION
   dataToWrite = 0;
   //minimum duration of the interrupt
   //LSB equals 1/(sample rate)
   dataToWrite |= 0x00; // 1 * 1/50 s = 20ms
   IMU.writeRegister(LIS3DH_INT1_DURATION, dataToWrite);
-  
+
   //LIS3DH_CTRL_REG5
   //Int1 latch interrupt and 4D on  int1 (preserve fifo en)
   IMU.readRegister(&dataToWrite, LIS3DH_CTRL_REG5);
@@ -114,7 +114,7 @@ void configIMUInterruptsBeforeGoingToSleep()
   IMU.writeRegister(LIS3DH_CTRL_REG5, dataToWrite);
 
   //LIS3DH_CTRL_REG5
-  //Set interrupt polarity 
+  //Set interrupt polarity
   #if(OMOTE_HARDWARE_REV >= 5)
   IMU.writeRegister(LIS3DH_CTRL_REG6, 0x02); // For active-low interrupt
   #else
@@ -131,7 +131,7 @@ void configIMUInterruptsBeforeGoingToSleep()
   //dataToWrite |= 0x04; //FIFO watermark
   //dataToWrite |= 0x02; //FIFO overrun
   IMU.writeRegister(LIS3DH_CTRL_REG3, dataToWrite);
-  
+
 }
 
 // Enter Sleep Mode
@@ -183,7 +183,7 @@ void enterSleep(){
   pinMode(IR_RX_GPIO, INPUT); // force IR receiver pin to INPUT to prevent high current during sleep (additional 60 uA)
   digitalWrite(IR_VCC_GPIO, LOW); // IR Receiver off
 
-  // Configure button matrix for ext1 interrupt  
+  // Configure button matrix for ext1 interrupt
   #if(OMOTE_HARDWARE_REV < 5)
   pinMode(SW_1_GPIO, OUTPUT);
   pinMode(SW_2_GPIO, OUTPUT);
@@ -206,9 +206,9 @@ void enterSleep(){
   pinMode(LCD_BL_GPIO, INPUT);
   pinMode(LCD_EN_GPIO, INPUT);
   gpio_hold_en((gpio_num_t)LCD_BL_GPIO);
-  gpio_hold_en((gpio_num_t)LCD_EN_GPIO);  
+  gpio_hold_en((gpio_num_t)LCD_EN_GPIO);
   gpio_deep_sleep_hold_en();
-  
+
   #if(OMOTE_HARDWARE_REV >= 5)
   esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK, ESP_EXT1_WAKEUP_ANY_LOW);
   #else
@@ -239,7 +239,7 @@ void init_sleep_HAL() {
   } else {
     wakeup_reason = WAKEUP_BY_RESET;
   }
-  
+
   pinMode(ACC_INT_GPIO, INPUT);
 
   // Release GPIO hold in case we are coming out of standby
@@ -264,7 +264,7 @@ void init_IMU_HAL(void) {
   IMU.settings.xAccelEnabled = 1;
   IMU.settings.yAccelEnabled = 1;
   IMU.settings.zAccelEnabled = 1;
-  IMU.begin();  
+  IMU.begin();
   uint8_t intDataRead;
   IMU.readRegister(&intDataRead, LIS3DH_INT1_SRC);//clear interrupt
 

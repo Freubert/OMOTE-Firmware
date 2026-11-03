@@ -119,6 +119,13 @@ int main(int argc, char *argv[]) {
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered
   setLabelActiveScene();
   gui_loop(); // Run the LVGL UI once before the loop takes over
+  #if defined(ARDUINO)
+  // Fade in the backlight now, so the display is visible before the slower inits (battery, BLE, IMU) below
+  for (unsigned long fadeStart = millis(); millis() - fadeStart < 100; ) {
+    update_backlightBrightness();
+    gui_loop();
+  }
+  #endif
 
   // Power Pin and battery monitor definition
   init_battery();

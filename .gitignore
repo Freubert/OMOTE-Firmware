@@ -10,3 +10,4 @@ compile_commands.json
 .gitignore
 INSTRUCTIONS.md
 harmony650.EZhex
+.github/copilot-instructions.md
