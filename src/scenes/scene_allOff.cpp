@@ -43,7 +43,9 @@ void register_scene_allOff(void) {
 }
 
 void scene_start_sequence_allOff(void) {
-  // Turn off all devices
+  // Turn off all devices. The Teufel only has a toggle command, so it is switched off by the end sequence of the Fernsehen scene.
+  executeCommand(PHILIPS_POWER_OFF);
+  delay(500);
   executeCommand(ATHEN_POWER_OFF);
   delay(500);
   executeCommand(EPSON_POWER_OFF);

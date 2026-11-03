@@ -26,6 +26,7 @@
 // register gui and keys
 #include "applicationInternal/gui/guiBase.h"
 #include "applicationInternal/gui/guiRegistry.h"
+#include "guis/gui_sceneSelection.h"
 #include "guis/gui_settings.h"
 #include "guis/gui_BLEpairing.h"
 #include "devices/TV/device_philipsTV/gui_philipsTV.h"
@@ -39,6 +40,9 @@
 // register scenes
 #include "scenes/scene__default.h"
 #include "scenes/scene_allOff.h"
+#include "scenes/scene_fernsehen.h"
+#include "scenes/scene_filmLeinwand.h"
+#include "scenes/scene_filmFernseher.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 
 #if defined(ARDUINO)
@@ -91,6 +95,7 @@ int main(int argc, char *argv[]) {
   register_device_kodi();
 
   // Register the GUIs. They will be displayed in the order they have been registered.
+  register_gui_sceneSelection();
   register_gui_philipsTV();
   register_gui_teufelSConcept();
   register_gui_epsonProjector();
@@ -103,7 +108,7 @@ int main(int argc, char *argv[]) {
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_philipsTV, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
+    {tabName_sceneSelection, tabName_philipsTV, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
@@ -113,7 +118,12 @@ int main(int argc, char *argv[]) {
 
   // register the scenes and their key_commands_*
   register_scene_defaultKeys();
+  register_scene_fernsehen();
+  register_scene_filmLeinwand();
+  register_scene_filmFernseher();
   register_scene_allOff();
+  // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
+  set_scenes_on_sceneSelectionGUI({scene_name_fernsehen, scene_name_filmLeinwand, scene_name_filmFernseher});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered

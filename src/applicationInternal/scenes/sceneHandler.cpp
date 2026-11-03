@@ -7,6 +7,7 @@
 #include "applicationInternal/commandHandler.h"
 #include "applicationInternal/omote_log.h"
 #include "scenes/scene__default.h"
+#include "scenes/scene_devicePower.h"
 
 void setLabelActiveScene() {
   if ((SceneLabel != NULL) && sceneExists(gui_memoryOptimizer_getActiveSceneName())) {
@@ -19,9 +20,12 @@ void showSpecificGUI(GUIlists GUIlist, std::string GUIname);
 static unsigned long last_gui_navigation_time = 0;
 const unsigned long GUI_NAVIGATION_DEBOUNCE_MS = 100;
 
-bool isGuiNavigationDebounced() {
+// The 5-tab jumps rebuild tabs, which takes longer than the key debounce, so they need a longer lockout
+const unsigned long GUI_JUMP_DEBOUNCE_MS = 500;
+
+bool isGuiNavigationDebounced(unsigned long debounce_ms = GUI_NAVIGATION_DEBOUNCE_MS) {
   unsigned long current_time = millis();
-  if (current_time - last_gui_navigation_time < GUI_NAVIGATION_DEBOUNCE_MS) {
+  if (current_time - last_gui_navigation_time < debounce_ms) {
     omote_log_d("scene: GUI navigation debounced, too soon since last navigation\r\n");
     return true;
   }
@@ -69,7 +73,7 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
 
   // --- jump 5 guis back or forward (clamped to the first/last) in the currently active list of guis -------------------------------------------
   if ((scene_name == scene_gui_first) || (scene_name == scene_gui_last)) {
-    if (isGuiNavigationDebounced()) {
+    if (isGuiNavigationDebounced(GUI_JUMP_DEBOUNCE_MS)) {
       return;
     }
     // Only three tabs are kept in memory, so the target tab has to be created by its index in the gui list
@@ -80,6 +84,8 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
     if ((current >= 0) && (target != current)) {
       guis_doTabCreationForSpecificGUI(gui_memoryOptimizer_getActiveGUIlist(), target);
     }
+    // the lockout starts when the jump is finished, not when it was requested
+    last_gui_navigation_time = millis();
     return;
   }
 
@@ -133,6 +139,8 @@ void handleScene(uint16_t command, commandData commandData, std::string addition
 
   if (SceneLabel != NULL) {lv_label_set_text(SceneLabel, "changing...");}
   gui_loop();
+
+  scene_devicePower_setTransition(gui_memoryOptimizer_getActiveSceneName(), scene_name);
 
   if (callEndAndStartSequences) {
     // end old scene
