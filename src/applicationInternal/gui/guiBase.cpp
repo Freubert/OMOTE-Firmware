@@ -9,6 +9,9 @@
 #include "applicationInternal/omote_log.h"
 #include "scenes/scene__default.h"
 
+LV_FONT_DECLARE(lv_font_montserrat_de_12)
+LV_FONT_DECLARE(lv_font_montserrat_de_14)
+
 lv_color_t color_primary = lv_color_hex(0x303030); // gray
 lv_obj_t* MemoryUsageLabel = NULL;
 lv_obj_t* WifiLabel = NULL;
@@ -152,6 +155,15 @@ void init_gui(void) {
 
   init_lvgl_hardware();
 
+  // The display is initialised and cleared now: turn the backlight on before the GUI is built.
+  // The fade has to be driven repeatedly, a single call would only set the start brightness (0).
+  #if defined(ARDUINO)
+  for (unsigned long fadeStart = millis(); millis() - fadeStart < 100; ) {
+    update_backlightBrightness();
+  }
+  #endif
+
+
   // -- draw red border around the main widgets -------------------------------------------------------------
   if (!global_styles_already_initialized) {
     // Style the panel background. Will be initialized only once and reused in fillPanelWithPageIndicator_strategyMax3
@@ -169,6 +181,8 @@ void init_gui(void) {
   }
   // Set the background color -------------------------------------------------------------------------------
   lv_obj_set_style_bg_color(lv_scr_act(), lv_color_black(), LV_PART_MAIN);
+  // default font with Latin-1 glyphs (umlauts), inherited by all widgets without an explicit font
+  lv_obj_set_style_text_font(lv_scr_act(), &lv_font_montserrat_de_14, LV_PART_MAIN);
   // set default height and position of main widgets
   setMainWidgetsHeightAndPosition();
   // On startup, set current GUIname and GUIlist according to last state before going to sleep
@@ -281,7 +295,7 @@ void init_gui_status_bar() {
   SceneLabel = lv_label_create(statusbar);
   lv_label_set_text(SceneLabel, "");
   lv_obj_align(SceneLabel, LV_ALIGN_TOP_MID, 0, labelsPositionTopStatusbar);
-  lv_obj_set_style_text_font(SceneLabel, &lv_font_montserrat_12, LV_PART_MAIN);
+  lv_obj_set_style_text_font(SceneLabel, &lv_font_montserrat_de_12, LV_PART_MAIN);
   lv_obj_add_flag(SceneLabel, LV_OBJ_FLAG_CLICKABLE);
   lv_obj_set_user_data(SceneLabel,(void *)(intptr_t)0);
   lv_obj_add_event_cb(SceneLabel, sceneLabel_or_pageIndicator_event_cb, LV_EVENT_CLICKED, NULL);

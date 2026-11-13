@@ -8,6 +8,7 @@
 //   special
 #include "devices/misc/device_specialCommands.h"
 #include "applicationInternal/commandHandler.h"
+#include "scenes/scene_wiiUFernseher.h"
 //   keyboards
 #if (ENABLE_KEYBOARD_MQTT == 1)
 #include "devices/keyboard/device_keyboard_mqtt/device_keyboard_mqtt.h"
@@ -34,16 +35,18 @@
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
 #include "devices/mediaPlayer/device_kodi/gui_kodi.h"
-#include "scenes/gui_sceneActions.h"
 #include "devices/mediaPlayer/device_kodi/device_kodi.h"
 #include "applicationInternal/keys.h"
 #include "applicationInternal/gui/guiStatusUpdate.h"
 // register scenes
+#include "scenes/gui_sceneActions.h"
+#include "scenes/gui_deviceMenu.h"
 #include "scenes/scene__default.h"
 #include "scenes/scene_allOff.h"
 #include "scenes/scene_fernsehen.h"
 #include "scenes/scene_filmLeinwand.h"
 #include "scenes/scene_filmFernseher.h"
+#include "scenes/scene_directDeviceControl.h"
 #include "applicationInternal/scenes/sceneHandler.h"
 
 #if defined(ARDUINO)
@@ -103,6 +106,7 @@ int main(int argc, char *argv[]) {
   register_gui_athenVS482();
   register_gui_kodi();
   register_gui_sceneActions();
+  register_gui_deviceMenu();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif
@@ -110,11 +114,10 @@ int main(int argc, char *argv[]) {
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_sceneSelection, tabName_philipsTV, tabName_teufelSConcept, tabName_epsonProjector, tabName_athenVS482, tabName_kodi
+    {tabName_sceneSelection, tabName_settings
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
-    , tabName_settings
     };
   #endif
 
@@ -123,9 +126,10 @@ int main(int argc, char *argv[]) {
   register_scene_fernsehen();
   register_scene_filmLeinwand();
   register_scene_filmFernseher();
+  register_scene_directDeviceControl();
   register_scene_allOff();
   // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_fernsehen, scene_name_filmLeinwand, scene_name_filmFernseher});
+  set_scenes_on_sceneSelectionGUI({scene_name_fernsehen, scene_name_filmLeinwand, scene_name_wiiUFernseher, scene_name_filmFernseher, scene_name_directDeviceControl});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered

@@ -322,6 +322,7 @@ void doTabCreation_strategyMax3(lv_obj_t* tabview, t_gui_state *gui_state) {
 
 LV_IMG_DECLARE(gradientLeft);
 LV_IMG_DECLARE(gradientRight);
+LV_FONT_DECLARE(lv_font_montserrat_de_10)
 
 void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv_obj_t* img2, t_gui_state *gui_state) {
   omote_log_d("  Will fill panel with page indicators\r\n");
@@ -384,6 +385,12 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
   int8_t  breadcrumpSceneGuiListStartPositionX = (-1) * (breadcrumpSceneGuiListLength -1) * (breadcrumpDotSize + breadcrumpDotDistance) / 2;
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   bool show_scene_gui_list = get_scene_has_gui_list(gui_memoryOptimizer_getActiveSceneName());
+  // The touch x-axis only works at the left screen edge, where the first/last tab has no clickable
+  // page indicator. So with a scene gui list a touch anywhere on the panel switches between the lists.
+  if (show_scene_gui_list) {
+    lv_obj_add_flag(panel, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_event_cb(panel, pageIndicator_navigate_event_cb, LV_EVENT_CLICKED, NULL);
+  }
   #else
   bool show_scene_gui_list = false;
   #endif
@@ -500,7 +507,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
 
       // create a label for nameOfGUI
       lv_obj_t* label = lv_label_create(btn);
-      lv_obj_set_style_text_font(label, &lv_font_montserrat_10, LV_PART_MAIN);
+      lv_obj_set_style_text_font(label, &lv_font_montserrat_de_10, LV_PART_MAIN);
       lv_label_set_text_fmt(label, "%s", nameOfGUI.c_str());
       lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, nameOfGUI_yPos);
 
