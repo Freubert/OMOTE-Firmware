@@ -20,10 +20,11 @@ void keyboardBLE_printBonds_HAL() {
 std::string keyboardBLE_getBonds_HAL() {return "11:22:33:44:55:66,77:88:99:aa:bb:cc";};
 void keyboardBLE_deleteBonds_HAL() {};
 bool keyboardBLE_forceConnectionToAddress_HAL(std::string peerAddress) {return true;};
+bool keyboardBLE_startConnectionToAddress_HAL(std::string peerAddress) {return true;};
 tAnnounceBLEmessage_cb thisAnnounceBLEmessage_cb = NULL;
 void set_announceBLEmessage_cb_HAL(tAnnounceBLEmessage_cb pAnnounceBLEmessage_cb) {
   // this is the callback in the commandHandler that we call from here
-  thisAnnounceBLEmessage_cb = pAnnounceBLEmessage_cb;  
+  thisAnnounceBLEmessage_cb = pAnnounceBLEmessage_cb;
 };
 
 void init_keyboardBLE_HAL() {};

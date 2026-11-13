@@ -49,6 +49,10 @@ bool keyboardBLE_forceConnectionToAddress_HAL(std::string peerAddress) {
   return bleKeyboard.forceConnectionToAddress(peerAddress);
 }
 
+bool keyboardBLE_startConnectionToAddress_HAL(std::string peerAddress) {
+  return bleKeyboard.startConnectionToAddress(peerAddress);
+}
+
 tAnnounceBLEmessage_cb thisAnnounceBLEmessage_cb = NULL;
 void set_announceBLEmessage_cb_HAL(tAnnounceBLEmessage_cb pAnnounceBLEmessage_cb) {
   // this is the callback in the commandHandler that we call from here
@@ -110,7 +114,7 @@ void delete_bonds_if_NimBLE_version_changed() {
   bool irk_exists = (err == ESP_OK);
   // and just for information, what an Identity Address is:
   // Identity Address: An address associated with an RPA that does not change over time. An IRK is required to resolve an RPA to its Identity Address.
- 
+
   // Serial.printf("'peer_sec_1' present: %s; 'rpa_rec_1' present: %s; 'local_irk_1' present: %s\r\n", bond_exists ? "yes" : "no", rpa_exists ? "yes" : "no", irk_exists ? "yes" : "no");
   /*
                                               peer_sec_1 rpa_rec_1  local_irk_1     partition 'nimble_bond' should be deleted
@@ -176,7 +180,7 @@ bool keyboardBLE_isConnected_HAL() {
 void keyboardBLE_shutdown_HAL() {
   bleKeyboard.end();
 }
-    
+
 void keyboardBLE_write_HAL(uint8_t c) {
   bleKeyboard.write(c);
 }

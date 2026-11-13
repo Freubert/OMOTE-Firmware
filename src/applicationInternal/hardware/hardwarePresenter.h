@@ -107,6 +107,8 @@ void keyboardBLE_printBonds();
 std::string keyboardBLE_getBonds();
 void keyboardBLE_deleteBonds();
 bool keyboardBLE_forceConnectionToAddress(std::string peerAddress);
+// non blocking variant: starts connecting, poll keyboardBLE_isConnected()
+bool keyboardBLE_startConnectionToAddress(std::string peerAddress);
 bool keyboardBLE_isAdvertising();
 bool keyboardBLE_isConnected();
 void keyboardBLE_shutdown();

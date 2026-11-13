@@ -43,12 +43,21 @@ void guis_doTabCreationAfterSliding(int newTabID);
 // callback when pageIndicator prev or next was clicked
 void pageIndicator_navigate_event_cb(lv_event_t* e) {
   lv_obj_t* target = lv_event_get_target(e);
-  
+
+  // The touch x-axis can be unreliable, so any touch on the page indicator switches between the
+  // main and the scene gui list if the active scene has its own list.
+  if (get_scene_has_gui_list(gui_memoryOptimizer_getActiveSceneName())) {
+    executeCommand(SCENE_BACK_TO_PREVIOUS_GUI_LIST);
+    return;
+  }
+
   int user_data = (intptr_t)(target->user_data);
   if (user_data == 0) {
     executeCommand(GUI_PREV);
   } else if (user_data == 1) {
     executeCommand(GUI_NEXT);
+  } else if (user_data == 2) {
+    executeCommand(SCENE_SELECTION);
   }
 }
 
@@ -65,7 +74,7 @@ void screen_gesture_event_cb(lv_event_t* e) {
   if (dir == LV_DIR_BOTTOM) {
     omote_log_d("- Scene selection: swipe down received for navigating to scene selection page\r\n");
     executeCommand(SCENE_SELECTION);
-  }    
+  }
 }
 
 // Set the page indicator (panel) scroll position relative to the tabview content scroll position
@@ -78,7 +87,7 @@ void tabview_content_is_scrolling_event_cb(lv_event_t* e){
   int offset = SCR_WIDTH / 2  - 150 / 2    - 8 - 2*50 / 2                -4;
   // get the object to which the event is sent
   lv_obj_t* tabviewContent = lv_event_get_target(e);
-  
+
   // Get the x coordinate of object and scroll panel accordingly
   int16_t tabviewX = lv_obj_get_scroll_x(tabviewContent);
   // the last events we receive are 0, 238 and 476. But should be 0, 240 and 480. Otherwise page indicator jumps a litte bit after recreation of tabs.
@@ -112,7 +121,7 @@ static void tabview_animation_ready_cb(lv_anim_t* a) {
 // Sent when a new tab is selected by sliding or clicking the tab button. lv_tabview_get_tab_act(tabview) returns the zero based index of the current tab.
 void tabview_tab_changed_event_cb(lv_event_t* e) {
   if (lv_event_get_code(e) == LV_EVENT_VALUE_CHANGED) {
-    
+
     int newTabID = lv_tabview_get_tab_act((lv_obj_t*)lv_event_get_target(e));
 
     // Wait until the animation ended, then call "guis_doTabCreationAfterSliding(newTabID);"
@@ -355,13 +364,13 @@ void setActiveTab(uint32_t index, lv_anim_enable_t anim_en, bool send_tab_change
     omote_log_w("setActiveTab: tabview is NULL, cannot set active tab\n");
     return;
   }
-  
+
   // Check if the tabview object is still valid
   if (!lv_obj_is_valid(tabview)) {
     omote_log_w("setActiveTab: tabview object is invalid, cannot set active tab\n");
     return;
   }
-  
+
   // unsigned long startTime = millis();
   if (anim_en == LV_ANIM_ON) {
     lv_tabview_set_act(tabview, index, LV_ANIM_ON);

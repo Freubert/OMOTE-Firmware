@@ -14,6 +14,7 @@ void keyboardBLE_printBonds_HAL();
 std::string keyboardBLE_getBonds_HAL();
 void keyboardBLE_deleteBonds_HAL();
 bool keyboardBLE_forceConnectionToAddress_HAL(std::string peerAddress);
+bool keyboardBLE_startConnectionToAddress_HAL(std::string peerAddress);
 typedef void (*tAnnounceBLEmessage_cb)(std::string message);
 extern tAnnounceBLEmessage_cb thisAnnounceBLEmessage_cb;
 void set_announceBLEmessage_cb_HAL(tAnnounceBLEmessage_cb pAnnounceBLEmessage_cb);

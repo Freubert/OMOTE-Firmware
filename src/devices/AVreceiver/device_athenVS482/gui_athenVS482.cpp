@@ -12,9 +12,9 @@ struct ButtonDef {
 };
 
 static const ButtonDef buttons[] = {
-  {"Power On", &ATHEN_POWER_ON},
-  {"Power Off", &ATHEN_POWER_OFF},
-  {"ARC", &ATHEN_ARC},
+  {LV_SYMBOL_POWER " Power On", &ATHEN_POWER_ON},
+  {LV_SYMBOL_POWER " Power Off", &ATHEN_POWER_OFF},
+  {LV_SYMBOL_AUDIO " ARC", &ATHEN_ARC},
 };
 
 static void button_clicked_event_cb(lv_event_t* e) {

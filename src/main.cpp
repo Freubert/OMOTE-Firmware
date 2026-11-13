@@ -34,6 +34,7 @@
 #include "devices/AVreceiver/device_athenVS482/gui_athenVS482.h"
 #include "devices/projector/device_epsonProjector/gui_epsonProjector.h"
 #include "devices/mediaPlayer/device_kodi/gui_kodi.h"
+#include "scenes/gui_sceneActions.h"
 #include "devices/mediaPlayer/device_kodi/device_kodi.h"
 #include "applicationInternal/keys.h"
 #include "applicationInternal/gui/guiStatusUpdate.h"
@@ -101,6 +102,7 @@ int main(int argc, char *argv[]) {
   register_gui_epsonProjector();
   register_gui_athenVS482();
   register_gui_kodi();
+  register_gui_sceneActions();
   #if (ENABLE_KEYBOARD_BLE == 1)
   register_gui_blepairing();
   #endif

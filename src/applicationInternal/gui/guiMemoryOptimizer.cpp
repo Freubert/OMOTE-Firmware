@@ -119,12 +119,12 @@ void safe_delete_lv_obj(lv_obj_t* obj, const char* obj_name) {
   if (obj == NULL) {
     return;
   }
-  
+
   if (!lv_obj_is_valid(obj)) {
     omote_log_w("safe_delete_lv_obj: %s object is invalid, skipping deletion\n", obj_name);
     return;
   }
-  
+
   lv_obj_del(obj);
 }
 
@@ -132,12 +132,12 @@ void clear_tabview(lv_obj_t* tabview, t_gui_state *gui_state) {
   if (tabview == NULL) {
     return;
   }
-  
+
   if (!lv_obj_is_valid(tabview)) {
     omote_log_w("clear_tabview: tabview object is invalid, skipping deletion\n");
     return;
   }
-  
+
   // first remove events for the tabview
   lv_obj_remove_event_cb(tabview, tabview_tab_changed_event_cb);
   lv_obj_remove_event_cb(tabview, tabview_content_is_scrolling_event_cb);
@@ -260,7 +260,7 @@ void setGUIlistIndicesToBeShown_forFirstGUIinGUIlist(t_gui_state *gui_state) {
 
 void setGUIlistIndicesToBeShown_afterSlide(t_gui_state *gui_state) {
   int oldListIndex = -1;
- 
+
   if (gui_state->oldTabID > gui_state->activeTabID) {
     // swipe to previous item in list
     omote_log_d("  Will swipe to previous item in list\r\n");
@@ -299,11 +299,11 @@ void setGUIlistIndicesToBeShown_afterSlide(t_gui_state *gui_state) {
       gui_state->activeTabID = 1;
     }
   }
- 
+
 }
 
 void doTabCreation_strategyMax3(lv_obj_t* tabview, t_gui_state *gui_state) {
-  
+
   // create the tabs
   omote_log_d("  Will create tabs. List indices of the three tabs are %d, %d, %d, tab nr %d will be activated\r\n", gui_state->gui_on_tab[0].gui_list_index, gui_state->gui_on_tab[1].gui_list_index, gui_state->gui_on_tab[2].gui_list_index, gui_state->activeTabID);
   for (int i=0; i<3; i++) {
@@ -335,7 +335,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
     #endif
     return;
   }
-  
+
   // Check available memory before creating many objects
   unsigned long heapSize, freeHeap, maxAllocHeap, minFreeHeap;
   get_heapUsage(&heapSize, &freeHeap, &maxAllocHeap, &minFreeHeap);
@@ -413,7 +413,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
         // only if this is the button for the currently active tab, make it clickable to get to scene selection gui
         lv_obj_add_flag(btn, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_set_user_data(btn,(void *)(intptr_t)2);
-        lv_obj_add_event_cb(btn, sceneLabel_or_pageIndicator_event_cb, LV_EVENT_CLICKED, NULL);
+        lv_obj_add_event_cb(btn, pageIndicator_navigate_event_cb, LV_EVENT_CLICKED, NULL);
 
       } else if ((i==0 || i==1) && (gui_state->gui_on_tab[i+1].gui_list_index != -1)) {
         // this is the button on the previous tab, which can be seen on the active tab
@@ -442,10 +442,10 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
           omote_log_e("fillPanelWithPageIndicator: Failed to create dot object, out of memory\n");
           continue;
         }
-        
+
         lv_obj_set_size(dot, breadcrumpDotSize, breadcrumpDotSize);
         lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, LV_PART_MAIN);
-        
+
         // hightlight dot if it is the one for the currently active tab
         #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
         if ( ((gui_memoryOptimizer_getActiveGUIlist() == MAIN_GUI_LIST) || !get_scene_has_gui_list(gui_memoryOptimizer_getActiveSceneName()))
@@ -460,7 +460,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
         } else {
           lv_obj_set_style_bg_color(dot, lv_color_lighten(color_primary, 30), LV_PART_MAIN);
         }
-        
+
         lv_obj_align(dot, LV_ALIGN_TOP_MID, breadcrumpMainGuiListStartPositionX +j*(breadcrumpDotSize + breadcrumpDotDistance), breadcrumpMainGuiList_yPos);
         // this dot needs to get clickable again
         lv_obj_set_user_data(dot,(void *)(intptr_t)1);
@@ -476,7 +476,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
           omote_log_e("fillPanelWithPageIndicator: Failed to create scene dot object, out of memory\n");
           continue;
         }
-        
+
         lv_obj_set_size(dot, breadcrumpDotSize, breadcrumpDotSize);
         lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, LV_PART_MAIN);
         if ((gui_memoryOptimizer_getActiveGUIlist() == SCENE_GUI_LIST) && (j == (breadcrumpPosition-1))) {
@@ -488,7 +488,7 @@ void fillPanelWithPageIndicator_strategyMax3(lv_obj_t* panel, lv_obj_t* img1, lv
         } else {
           lv_obj_set_style_bg_color(dot, lv_color_lighten(color_primary, 30), LV_PART_MAIN);
         }
-        
+
         lv_obj_align(dot, LV_ALIGN_TOP_MID, breadcrumpSceneGuiListStartPositionX +j*(breadcrumpDotSize + breadcrumpDotDistance), breadcrumpSceneGuiList_yPos);
         // this dot needs to get clickable again
         lv_obj_set_user_data(dot,(void *)(intptr_t)1);
@@ -589,7 +589,7 @@ void gui_memoryOptimizer_onStartup(lv_obj_t** tabview, lv_obj_t** panel, lv_obj_
       break;
     }
   }
-  
+
   // 2. set gui_list_indices and the tab to be activated
   if ((gui_list_index >= 0) && (gui_list_index < get_gui_list_active_withFallback()->size())) {
     // gui was found
@@ -601,7 +601,7 @@ void gui_memoryOptimizer_onStartup(lv_obj_t** tabview, lv_obj_t** panel, lv_obj_
     gui_memoryOptimizer_setActiveGUIlist(MAIN_GUI_LIST);
     setGUIlistIndicesToBeShown_forFirstGUIinGUIlist(&gui_state);
 
-  }  
+  }
 
   // 3. create content
   gui_memoryOptimizer_doContentCreation(tabview, panel, img1, img2, &gui_state);
@@ -655,7 +655,7 @@ void gui_memoryOptimizer_afterGUIlistChanged(lv_obj_t** tabview, lv_obj_t** pane
     // we are changing the gui_list, so save the last_active_gui_list_index
     gui_memoryOptimizer_setLastActiveGUIlistIndex(gui_state.gui_on_tab[gui_state.activeTabID].gui_list_index);
   }
-  
+
   // 1. notify old guis and clear tabview and panel
   gui_memoryOptimizer_notifyAndClear(tabview, panel, img1, img2, &gui_state);
 
@@ -676,7 +676,7 @@ void gui_memoryOptimizer_navigateToGUI(lv_obj_t** tabview, lv_obj_t** panel, lv_
   if ( !((gui_list_index >= 0) && (gui_list_index < get_gui_list_withFallback(GUIlist)->size()))) {
     omote_log_w("  cannot navigate to GUI because gui_list_index \"%d\" is out of range\r\n", gui_list_index);
     return;
-  }  
+  }
 
   if (gui_state.last_active_gui_list != GUIlist) {
     // we are changing the gui_list, so save the last_active_gui_list_index
@@ -724,7 +724,7 @@ void gui_memoryOptimizer_doContentCreation(lv_obj_t** tabview, lv_obj_t** panel,
   // recreate the tabview
   lv_obj_t* newTabview = create_tabview();
   *tabview = newTabview;
-  
+
   // Create the tabs. Use strategy "3 tabs at maximum" to keep memory usage low.
   // Set the tab we swiped to as active
   doTabCreation_strategyMax3(*tabview, gui_state);

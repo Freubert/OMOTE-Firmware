@@ -108,7 +108,7 @@ void set_motionThreshold(uint8_t aMotionThreshold) {
 
 // --- keypad -----------------------------------------------------------------
 void init_keys(void) {
-  init_keys_HAL();  
+  init_keys_HAL();
 }
 // Used in keypad_getRawKeys to save the raw key states.
 // Holds the raw keystates as received from the keypad (OMOTE_HARDWARE_REV <= 4), the TCA8418 (OMOTE_HARDWARE_REV >= 5) or the simulator.
@@ -138,7 +138,7 @@ void set_keyboardBrightness(uint8_t aKeyboardBrightness){
 #endif
 // --- IR sender --------------------------------------------------------------
 void init_infraredSender(void) {
-  init_infraredSender_HAL();  
+  init_infraredSender_HAL();
 }
 void sendIRcode(int protocol, std::list<std::string> commandPayloads, std::string additionalPayload) {
   sendIRcode_HAL(protocol, commandPayloads, additionalPayload);
@@ -203,6 +203,9 @@ void keyboardBLE_deleteBonds() {
 }
 bool keyboardBLE_forceConnectionToAddress(std::string peerAddress) {
   return keyboardBLE_forceConnectionToAddress_HAL(peerAddress);
+}
+bool keyboardBLE_startConnectionToAddress(std::string peerAddress) {
+  return keyboardBLE_startConnectionToAddress_HAL(peerAddress);
 }
 bool keyboardBLE_isAdvertising() {
   return keyboardBLE_isAdvertising_HAL();

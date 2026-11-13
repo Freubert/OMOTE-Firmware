@@ -78,7 +78,11 @@ static void gui_setKeys_philipsTV(void) {
     {KEY_CHUP, PHILIPS_CHANNEL_UP}, {KEY_CHDOW, PHILIPS_CHANNEL_DOWN}, {KEY_REC, PHILIPS_HOME}, {KEY_SRC, PHILIPS_SOURCES},
     {KEY_VOLUP, PHILIPS_VOL_UP}, {KEY_VOLDO, PHILIPS_VOL_DOWN}, {KEY_MUTE, PHILIPS_MUTE},
   };
-  key_commands_long_philipsTV = {{KEY_STOP, PHILIPS_POWER_TOGGLE}, {KEY_RED, PHILIPS_RED}, {KEY_GREEN, PHILIPS_GREEN}, {KEY_YELLO, PHILIPS_YELLOW}, {KEY_BLUE, PHILIPS_BLUE}, {KEY_PLAY, PHILIPS_PLAY}, {KEY_INFO, PHILIPS_INFO}, {KEY_REC, PHILIPS_RECORD}};
+  key_commands_long_philipsTV = {
+    {KEY_STOP, PHILIPS_POWER_TOGGLE},
+    {KEY_RED, PHILIPS_RED}, {KEY_GREEN, PHILIPS_GREEN}, {KEY_YELLO, PHILIPS_YELLOW}, {KEY_BLUE, PHILIPS_BLUE},
+    {KEY_PLAY, PHILIPS_PLAY}, {KEY_INFO, PHILIPS_INFO}, {KEY_REC, PHILIPS_RECORD}
+  };
   for (const auto& entry : key_commands_short_philipsTV) {
     bool repeated = (entry.first == KEY_UP) || (entry.first == KEY_DOWN) || (entry.first == KEY_LEFT) || (entry.first == KEY_RIGHT) || (entry.first == KEY_VOLUP) || (entry.first == KEY_VOLDO);
     key_repeatModes_philipsTV[entry.first] = repeated ? SHORT_REPEATED : SHORT;

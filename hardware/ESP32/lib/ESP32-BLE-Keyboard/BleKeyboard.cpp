@@ -1,6 +1,5 @@
 #include <sstream>
 #include "BleKeyboard.h"
-
 #include <NimBLEDevice.h>
 #include <NimBLEServer.h>
 #include <NimBLEUtils.h>
@@ -9,7 +8,6 @@
 #include <driver/adc.h>
 #include "sdkconfig.h"
 
-
 #if defined(CONFIG_ARDUHAL_ESP_LOG)
   #include "esp32-hal-log.h"
   #define LOG_TAG ""
@@ -17,7 +15,6 @@
   #include "esp_log.h"
   static const char* LOG_TAG = "NimBLEDevice";
 #endif
-
 
 // Report IDs:
 #define KEYBOARD_ID 0x01
@@ -151,7 +148,7 @@ void BleKeyboard::begin(void)
   advertising->addServiceUUID(hid->getHidService()->getUUID());
   advertising->enableScanResponse(false);
   #endif
-  
+
   /*
     Don't start advertising here. Call one of
       startAdvertisingForAll();
@@ -200,23 +197,23 @@ void BleKeyboard::setName(std::string deviceName) {
 
 /**
  * @brief Sets the waiting time (in milliseconds) between multiple keystrokes in NimBLE mode.
- * 
+ *
  * @param ms Time in milliseconds
  */
 void BleKeyboard::setDelay(uint32_t ms) {
   this->_delay_ms = ms;
 }
 
-void BleKeyboard::set_vendor_id(uint16_t vid) { 
-	this->vid = vid; 
+void BleKeyboard::set_vendor_id(uint16_t vid) {
+	this->vid = vid;
 }
 
-void BleKeyboard::set_product_id(uint16_t pid) { 
-	this->pid = pid; 
+void BleKeyboard::set_product_id(uint16_t pid) {
+	this->pid = pid;
 }
 
-void BleKeyboard::set_version(uint16_t version) { 
-	this->version = version; 
+void BleKeyboard::set_version(uint16_t version) {
+	this->version = version;
 }
 
 void BleKeyboard::sendReport(KeyReport* keys)
@@ -715,7 +712,7 @@ void BleKeyboard::startAdvertisingForAll() {
 
 void BleKeyboard::startAdvertisingWithWhitelist(std::string peersAllowed) {
   // All peers can see the advertising, but only peers on the whitelist are allowed to connect.
-  
+
   this->prepareAdvertising();
 
   // Add peers to whitelist.
@@ -870,28 +867,51 @@ bool BleKeyboard::startAdvertisingIfExactlyOneBondExists() {
   }
 }
 
+bool BleKeyboard::startAdvertisingToPeer(std::string peerAddress) {
+  if (peerAddress == "") {
+    startAdvertisingForAll();
+    return true;
+  }
+  for (int i=0; i<NimBLEDevice::getNumBonds(); i++) {
+    if (NimBLEDevice::getBondedAddress(i).toString() == peerAddress) {
+      startAdvertisingDirected(
+        NimBLEDevice::getBondedAddress(i).toString(),
+        NimBLEDevice::getBondedAddress(i).getType() == BLE_ADDR_PUBLIC ? false : true);
+      return true;
+    }
+  }
+  ESP_LOGW(LOG_TAG, "BleKeyboard: cannot start direct advertising to address %s, because this address is not bonded\n", peerAddress.c_str());
+  return false;
+}
+
+// Non blocking: only starts the connection. The caller has to poll isConnected().
+bool BleKeyboard::startConnectionToAddress(std::string peerAddress) {
+  if (NimBLEDevice::getServer()->getConnectedCount() == 1) {
+    if (peerAddress == "") {
+      return true;
+    }
+    #if !defined(NIMBLE_ARDUINO_2_x)
+    NimBLEConnInfo connInfo = NimBLEDevice::getServer()->getPeerIDInfo(0);
+    #else
+    NimBLEConnInfo connInfo = NimBLEDevice::getServer()->getPeerInfoByHandle(0);
+    #endif
+    if (NimBLEAddress(connInfo.getAddress()).toString() == peerAddress) {
+      return true;
+    }
+  }
+  if (NimBLEDevice::getNumBonds() == 0) {
+    ESP_LOGW(LOG_TAG, "BleKeyboard: currently no client bonded. Please first pair a device. Please see the OMOTE Wiki. Cannot send key.\n");
+    return false;
+  }
+  return startAdvertisingToPeer(peerAddress);
+}
+
 bool BleKeyboard::advertiseAndWaitForConnection(std::string peerAddress) {
   int connectionTimeout   = 10000; // wait until connection is established
   int waitAfterConnection = 2000;  // wait after connection was established, before key is actually being sent
 
-  if (peerAddress == "") {
-    startAdvertisingForAll();
-    // we will now wait for connection
-  } else {
-    bool bondFound = false;
-    for (int i=0; i<NimBLEDevice::getNumBonds(); i++) {
-      if (NimBLEDevice::getBondedAddress(i).toString() == peerAddress) {
-        bondFound = true;
-        startAdvertisingDirected(
-          NimBLEDevice::getBondedAddress(i).toString(),
-          NimBLEDevice::getBondedAddress(i).getType() == BLE_ADDR_PUBLIC ? false : true);
-         // we will now wait for connection
-      }   
-    }
-    if (!bondFound) {
-      ESP_LOGW(LOG_TAG, "BleKeyboard: cannot start direct advertising to address %s, because this address is not bonded\n", peerAddress.c_str());
-      return false;
-    }
+  if (!startAdvertisingToPeer(peerAddress)) {
+    return false;
   }
   // advertising was started. Wait for connection
   ESP_LOGD(LOG_TAG, "BleKeyboard: will do a blocking wait for connection\n");
@@ -926,7 +946,7 @@ bool BleKeyboard::forceConnectionToAddress(std::string peerAddress) {
     } else {
       ESP_LOGD(LOG_TAG, "BleKeyboard: currently no client connected. Will start direct advertising to address %s.\n", peerAddress.c_str());
     }
-    
+
     return advertiseAndWaitForConnection(peerAddress);
   }
 
@@ -945,7 +965,7 @@ bool BleKeyboard::forceConnectionToAddress(std::string peerAddress) {
         return true;
       } else {
         ESP_LOGD(LOG_TAG, "BleKeyboard: will disconnect peer %s and start direct advertising to address %s.\n", NimBLEAddress(connInfo.getAddress()).toString().c_str(), peerAddress.c_str());
-  
+
         return advertiseAndWaitForConnection(peerAddress);
       }
     }
@@ -959,7 +979,7 @@ bool BleKeyboard::forceConnectionToAddress(std::string peerAddress) {
   // should never be reached
   return false;
 }
-  
+
 void BleKeyboard::set_BLEKeyboardMessage_cb(tBLEKeyboardMessage_cb pBLEKeyboardMessage_cb) {
-  thisBLEKeyboardMessage_cb = pBLEKeyboardMessage_cb;  
+  thisBLEKeyboardMessage_cb = pBLEKeyboardMessage_cb;
 }

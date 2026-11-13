@@ -65,15 +65,15 @@ static void sceneSelection_event_cb(lv_event_t* e) {
   activate_scene_command = get_activate_scene_command(scene_name);
   if (activate_scene_command != 0) {
     // this line is needed
-    if (SceneLabel != NULL) {lv_label_set_text(SceneLabel, "changing...");}
-    // Problem: screen will not get updated and show "changing..." if "executeCommand(activate_scene_command);" is called here
+    if (SceneLabel != NULL) {lv_label_set_text(SceneLabel, "umschalten...");}
+    // Problem: screen will not get updated and show "umschalten..." if "executeCommand(activate_scene_command);" is called here
     // test 1 (does not work): call lv_timer_handler();
     // lv_timer_handler();
     // test 2 (does not work): async_call
     // lv_async_call(activate_scene_async, &activate_scene_command);
     // test 3: lv_timer_create()
     // needs to run only once, and a very short period of 5 ms to wait until first run is enough
-    
+
     uint16_t scene_command_including_force;
     if (doForceScene) {
       // put the force flag into the highest bit
@@ -112,19 +112,19 @@ void create_tab_content_sceneSelection(lv_obj_t* tab) {
       lv_obj_add_event_cb(button, sceneSelection_event_cb, LV_EVENT_SHORT_CLICKED, (void *)(intptr_t)i);
       //lv_obj_add_event_cb(button, sceneSelection_event_cb, LV_EVENT_PRESSED,       (void *)(intptr_t)i);
       //lv_obj_add_event_cb(button, sceneSelection_event_cb, LV_EVENT_RELEASED,      (void *)(intptr_t)i);
-  
+
       lv_obj_t* label = lv_label_create(button);
       lv_label_set_text(label, scenes->at(i).c_str());
       lv_obj_center(label);
       }
   }
-  
+
 }
 
 void notify_tab_before_delete_sceneSelection(void) {
   // remember to set all pointers to lvgl objects to NULL if they might be accessed from outside.
   // They must check if object is NULL and must not use it if so
-  
+
 }
 
 void register_gui_sceneSelection(void){

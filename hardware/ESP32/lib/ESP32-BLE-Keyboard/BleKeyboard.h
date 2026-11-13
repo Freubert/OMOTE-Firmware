@@ -165,7 +165,7 @@ public:
   bool isAdvertising(void);
   bool isConnected(void);
   void setBatteryLevel(uint8_t level);
-  void setName(std::string deviceName);  
+  void setName(std::string deviceName);
   void setDelay(uint32_t ms);
   // For connecting multiple peers, please see this discussion: https://github.com/h2zero/NimBLE-Arduino/issues/651
   void startAdvertisingForAll();
@@ -179,6 +179,8 @@ public:
   void deleteBonds();
   bool startAdvertisingIfExactlyOneBondExists();
   bool advertiseAndWaitForConnection(std::string peerAddress);
+  bool startAdvertisingToPeer(std::string peerAddress);
+  bool startConnectionToAddress(std::string peerAddress); // non blocking, poll isConnected()
   bool forceConnectionToAddress(std::string peerAddress);
   void set_BLEKeyboardMessage_cb(tBLEKeyboardMessage_cb pBLEKeyboardMessage_cb);
 

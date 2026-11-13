@@ -1,4 +1,5 @@
 #include <map>
+#include "scenes/scene_sequence.h"
 #include "scenes/scene_allOff.h"
 #include "applicationInternal/scenes/sceneRegistry.h"
 #include "applicationInternal/commandHandler.h"
@@ -44,12 +45,11 @@ void register_scene_allOff(void) {
 
 void scene_start_sequence_allOff(void) {
   // Turn off all devices. The Teufel only has a toggle command, so it is switched off by the end sequence of the Fernsehen scene.
-  executeCommand(PHILIPS_POWER_OFF);
-  delay(500);
-  executeCommand(ATHEN_POWER_OFF);
-  delay(500);
-  executeCommand(EPSON_POWER_OFF);
-  delay(500);
+  sequence_add(PHILIPS_POWER_OFF, 500);
+  sequence_add(EPSON_POWER_OFF, 500);
+  // the Athen does not react while the TV / projector is shutting down, so it goes last after a pause
+  sequence_wait(5000);
+  sequence_add(ATHEN_POWER_OFF, 500);
 }
 
 void scene_end_sequence_allOff(void) {

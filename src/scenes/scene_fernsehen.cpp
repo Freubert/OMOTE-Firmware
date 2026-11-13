@@ -1,4 +1,5 @@
 #include <map>
+#include "scenes/scene_sequence.h"
 #include "scenes/scene_fernsehen.h"
 #include "scenes/scene_devicePower.h"
 #include "applicationInternal/keys.h"
@@ -55,45 +56,39 @@ void scene_setKeys_fernsehen() {
 void scene_start_sequence_fernsehen(void) {
   uint8_t on = scene_devicesToPowerOn(scene_name_fernsehen);
   if (on & DEVICE_TV) {
-    executeCommand(PHILIPS_POWER_ON);
-    delay(500);
+    sequence_add(PHILIPS_POWER_ON, 500);
   }
   if (on & DEVICE_TEUFEL) {
     // the Teufel only has a toggle command
-    executeCommand(TEUFEL_POWER);
-    delay(500);
+    sequence_add(TEUFEL_POWER, 500);
   }
   if (on & DEVICE_ATHEN) {
-    executeCommand(ATHEN_POWER_ON);
-    delay(500);
+    sequence_add(ATHEN_POWER_ON, 500);
   }
-  executeCommand(ATHEN_ARC);
-  delay(500);
-  executeCommand(TEUFEL_INPUT_OPT);
+  sequence_add(ATHEN_ARC, 500);
+  sequence_add(TEUFEL_INPUT_OPT);
   if (on & DEVICE_TV) {
     // the TV ignores IR commands until it has booted
-    delay(12000);
+    sequence_wait(12000);
   }
-  executeCommand(PHILIPS_INPUT_TV);
+  sequence_add(PHILIPS_INPUT_TV);
 }
 
 // Devices that the next scene needs as well stay on.
 void scene_end_sequence_fernsehen(void) {
   uint8_t off = scene_devicesToPowerOff(scene_name_fernsehen);
-  executeCommand(ATHEN_ARC);
-  delay(500);
+  sequence_add(ATHEN_ARC, 500);
   if (off & DEVICE_TV) {
-    executeCommand(PHILIPS_POWER_OFF);
-    delay(500);
-  }
-  if (off & DEVICE_ATHEN) {
-    executeCommand(ATHEN_POWER_OFF);
-    delay(500);
+    sequence_add(PHILIPS_POWER_OFF, 500);
   }
   if (off & DEVICE_TEUFEL) {
     // toggle, so this switches the Teufel off only if it is currently on
-    executeCommand(TEUFEL_POWER);
-    delay(500);
+    sequence_add(TEUFEL_POWER, 500);
+  }
+  if (off & DEVICE_ATHEN) {
+    // the Athen does not react while the TV / projector is shutting down (HDMI handshake), so it goes last after a pause
+    sequence_wait(5000);
+    sequence_add(ATHEN_POWER_OFF, 500);
   }
 }
 
