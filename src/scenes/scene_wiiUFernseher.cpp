@@ -10,7 +10,6 @@
 #include "devices/TV/device_philipsTV/device_philipsTV.h"
 #include "devices/AVreceiver/device_teufelSConcept/device_teufelSConcept.h"
 #include "devices/AVreceiver/device_athenVS482/device_athenVS482.h"
-#include "devices/mediaPlayer/device_kodi/device_kodi.h"
 // guis
 #include "devices/TV/device_philipsTV/gui_philipsTV.h"
 #include "devices/AVreceiver/device_teufelSConcept/gui_teufelSConcept.h"

@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
   // Only show these GUIs in the main gui list. If you don't set this explicitely, by default all registered guis are shown.
   #if (USE_SCENE_SPECIFIC_GUI_LIST != 0)
   main_gui_list =
-    {tabName_sceneSelection, tabName_settings
+    { tabName_sceneSelection, tabName_settings
     #if (ENABLE_KEYBOARD_BLE == 1)
     , tabName_blepairing
     #endif
@@ -123,13 +123,14 @@ int main(int argc, char *argv[]) {
 
   // register the scenes and their key_commands_*
   register_scene_defaultKeys();
+  register_scene_directDeviceControl();
   register_scene_fernsehen();
   register_scene_filmLeinwand();
   register_scene_filmFernseher();
-  register_scene_directDeviceControl();
+  register_scene_wiiUFernseher();
   register_scene_allOff();
   // Only show these scenes on the sceneSelection gui. If you don't set this explicitely, by default all registered scenes are shown.
-  set_scenes_on_sceneSelectionGUI({scene_name_fernsehen, scene_name_filmLeinwand, scene_name_wiiUFernseher, scene_name_filmFernseher, scene_name_directDeviceControl});
+  set_scenes_on_sceneSelectionGUI({scene_name_fernsehen, scene_name_wiiUFernseher, scene_name_filmLeinwand, scene_name_filmFernseher, scene_name_directDeviceControl});
 
   // init GUI - will initialize tft, touch and lvgl
   init_gui(); // This has to come before any other i2c devices are initialized, otherwise the i2c bus will not be powered

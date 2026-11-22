@@ -116,7 +116,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_align(brightnessIcon, LV_ALIGN_TOP_RIGHT, 0, -1);
   lv_obj_add_flag(brightnessIcon, LV_OBJ_FLAG_HIDDEN);
   lv_obj_add_event_cb(slider, bl_slider_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
-  
+
   menuLabel = lv_label_create(menuBox);
   lv_label_set_text(menuLabel, "Lift to Wake");
   lv_obj_align(menuLabel, LV_ALIGN_TOP_LEFT, 0, 30);
@@ -218,7 +218,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
   lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
-  
+
   brightnessIcon = lv_img_create(menuBox);
   lv_img_set_src(brightnessIcon, &low_brightness);
   lv_obj_set_style_img_recolor(brightnessIcon, lv_color_white(), LV_PART_MAIN);
@@ -250,7 +250,7 @@ void create_tab_content_settings(lv_obj_t* tab) {
   lv_obj_set_style_bg_color(menuBox, color_primary, LV_PART_MAIN);
   lv_obj_set_style_border_width(menuBox, 0, LV_PART_MAIN);
   lv_obj_set_style_pad_all(menuBox, 0, LV_PART_MAIN);
-  
+
   objBattSettingsVoltage = lv_label_create(menuBox);
   lv_label_set_text(objBattSettingsVoltage, "Voltage:");
   lv_obj_align(objBattSettingsVoltage, LV_ALIGN_TOP_LEFT, 0, 0);
